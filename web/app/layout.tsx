@@ -1,5 +1,5 @@
 import './global.css';
-import '@voli/ui/styles.css';
+import '../../ui/src/styles.css';
 
 export const metadata = {
   title: 'Voli - Volunteer Platform',

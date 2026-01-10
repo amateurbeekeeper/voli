@@ -18,8 +18,9 @@ jobs:
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
-      # - name: Lint
-      #   run: pnpm nx affected -t lint
+      - name: Lint
+        run: pnpm nx affected -t lint
+        continue-on-error: true
       - name: Unit Tests
         run: pnpm nx affected -t test
       - name: Build

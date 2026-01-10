@@ -1,0 +1,16 @@
+{
+  "extends": ["plugin:@nx/react-typescript"],
+  "ignorePatterns": ["dist", "node_modules", "*.stories.tsx", "postcss.config.js", "tailwind.config.js", "rollup.config.cjs"],
+  "overrides": [
+    {
+      "files": ["*.js", "*.cjs"],
+      "parserOptions": {
+        "sourceType": "script"
+      },
+      "rules": {
+        "@typescript-eslint/no-var-requires": "off"
+      }
+    }
+  ]
+}
+

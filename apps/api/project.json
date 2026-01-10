@@ -19,6 +19,20 @@
         "cwd": "apps/api"
       }
     },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "dotnet format apps/api/Voli.Api.csproj --verify-no-changes",
+        "description": "Check code formatting"
+      }
+    },
+    "format": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "dotnet format apps/api/Voli.Api.csproj",
+        "description": "Format code"
+      }
+    },
     "test": {
       "executor": "nx:run-commands",
       "options": {

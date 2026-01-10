@@ -24,6 +24,10 @@ libs/
   shared/       # Shared utilities and types
 ```
 
+## Contributing
+
+**Important:** Please read [CONTRIBUTING.md](./CONTRIBUTING.md) before contributing. It contains repository rules including detailed commit message guidelines.
+
 ## Quick Start
 
 See [SETUP.md](./SETUP.md) for detailed setup instructions.
@@ -94,30 +98,35 @@ Cosmos DB containers:
 
 ## Development Commands
 
+See [COMMANDS.md](./COMMANDS.md) for a complete reference.
+
+**Quick Start:**
 ```bash
-# Development
-pnpm nx dev                    # Run web and API together
-pnpm nx serve web              # Run web only
-pnpm nx serve api              # Run API only
+pnpm dev              # Run web and API together
+pnpm build            # Build all projects
+pnpm lint             # Lint all projects
+pnpm test             # Run all tests
+pnpm test:e2e         # Run E2E tests
+```
+
+**Individual commands:**
+```bash
+# Building
+pnpm build:web        # Build web only
+pnpm build:api        # Build API only
+
+# Linting
+pnpm lint:web         # Lint web only
+pnpm lint:api         # Lint API only
 
 # Testing
-pnpm nx test:unit              # Run all unit tests
-pnpm nx test web               # Test web app
-pnpm nx test:e2e               # Run E2E tests
+pnpm test:web         # Test web only
+pnpm test:api         # Test API only
+pnpm test:watch       # Watch mode for all tests
 
-# Building
-pnpm nx build web              # Build web app
-pnpm nx build api              # Build API
-
-# UI Development
-pnpm nx storybook ui           # View Storybook
-
-# Seeding
-pnpm nx seed:dev               # Seed dev database
-
-# API Client Generation
-pnpm nx api:openapi            # Fetch OpenAPI spec
-pnpm nx api:client             # Generate TypeScript client
+# Other
+pnpm nx storybook ui  # View Storybook
+pnpm seed:dev         # Seed dev database
 ```
 
 ## Environment Setup

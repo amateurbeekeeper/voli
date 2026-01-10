@@ -33,6 +33,7 @@
     "node_modules",
     "jest.config.ts",
     "jest.config.cts",
+    "vitest.config.ts",
     "**/*.spec.ts",
     "**/*.test.ts"
   ]
