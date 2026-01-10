@@ -40,3 +40,22 @@ Thumbs.db
 
 .nx/cache
 .nx/workspace-data
+
+# Next.js
+.next
+out
+
+
+storybook-static
+
+# Environment files
+.env.local
+.env*.local
+apps/api/appsettings.*.json
+!apps/api/appsettings.Development.json.example
+!apps/api/appsettings.Staging.json.example
+!apps/api/appsettings.Production.json.example
+
+# Generated API client
+libs/api-client/src
+libs/api-client/openapi.json

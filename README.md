@@ -1,96 +1,148 @@
-# Voli
+# Voli - Volunteer Platform
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+A portfolio-grade volunteer platform built with modern technologies demonstrating component-driven UI development, REST APIs, NoSQL database integration, and comprehensive testing.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+## Architecture
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+- **Monorepo**: Nx workspace with pnpm
+- **Frontend**: Next.js (App Router) with shadcn/ui components
+- **Backend**: ASP.NET Core Web API (C#)
+- **Database**: Azure Cosmos DB NoSQL (JSON documents)
+- **Testing**: Vitest (frontend), xUnit (backend), Playwright (E2E)
+- **UI Development**: Storybook for component documentation
 
-## Run tasks
+## Project Structure
 
-To run tasks with Nx use:
-
-```sh
-npx nx <target> <project-name>
+```
+apps/
+  web/          # Next.js frontend application
+  api/          # ASP.NET Core Web API
+  e2e/          # Playwright end-to-end tests
+libs/
+  ui/           # Shared UI components with Storybook
+  api-client/   # Generated TypeScript API client
+  shared/       # Shared utilities and types
 ```
 
-For example:
+## Quick Start
 
-```sh
-npx nx build myproject
+See [SETUP.md](./SETUP.md) for detailed setup instructions.
+
+```bash
+# Install dependencies
+pnpm install
+
+# Run development servers (web + API)
+pnpm nx dev
+
+# Run tests
+pnpm nx test:unit
+
+# Run E2E tests
+pnpm nx test:e2e
+
+# View Storybook
+pnpm nx storybook ui
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+## Key Features
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### ✅ Implemented
 
-## Add new projects
+- [x] Nx monorepo setup with pnpm
+- [x] Next.js app with App Router
+- [x] UI component library with Storybook
+- [x] ASP.NET Core Web API with Swagger
+- [x] Cosmos DB integration with repositories
+- [x] Seed runner for deterministic test data
+- [x] Unit testing setup (Vitest + xUnit)
+- [x] Playwright E2E testing
+- [x] CI/CD workflows (GitHub Actions)
+- [x] Environment configuration
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
+### 🚧 Next Steps
 
-To install a new plugin you can use the `nx add` command. Here's an example of adding the React plugin:
-```sh
-npx nx add @nx/react
+- [ ] Generate TypeScript API client from OpenAPI
+- [ ] Wire web app to use generated API client
+- [ ] Implement authentication (Auth0/Clerk/Entra ID)
+- [ ] Add API unit tests
+- [ ] Implement E2E test flows
+- [ ] Configure Azure deployments
+
+## API Endpoints
+
+- `GET /api/opportunities` - List published opportunities
+- `GET /api/opportunities/{id}` - Get opportunity details
+- `POST /api/opportunities` - Create opportunity (organisation)
+- `PATCH /api/opportunities/{id}` - Update opportunity (organisation)
+- `POST /api/applications` - Apply to opportunity (student)
+- `GET /api/applications/opportunities/{id}` - List applications (organisation)
+- `POST /api/hours` - Log volunteer hours (student)
+- `GET /api/hours/organisations/{id}` - List hours logs (organisation)
+- `PATCH /api/hours/{id}/approve` - Approve hours (organisation)
+- `GET /api/me` - Get current user profile
+- `GET /api/health` - Health check
+
+## Database Schema
+
+Cosmos DB containers:
+- `users` - User accounts (partition: `/id`)
+- `organisations` - Organisation profiles (partition: `/id`)
+- `opportunities` - Volunteer opportunities (partition: `/organisationId`)
+- `applications` - Student applications (partition: `/opportunityId`)
+- `hoursLogs` - Volunteer hours logs (partition: `/organisationId`)
+
+## Development Commands
+
+```bash
+# Development
+pnpm nx dev                    # Run web and API together
+pnpm nx serve web              # Run web only
+pnpm nx serve api              # Run API only
+
+# Testing
+pnpm nx test:unit              # Run all unit tests
+pnpm nx test web               # Test web app
+pnpm nx test:e2e               # Run E2E tests
+
+# Building
+pnpm nx build web              # Build web app
+pnpm nx build api              # Build API
+
+# UI Development
+pnpm nx storybook ui           # View Storybook
+
+# Seeding
+pnpm nx seed:dev               # Seed dev database
+
+# API Client Generation
+pnpm nx api:openapi            # Fetch OpenAPI spec
+pnpm nx api:client             # Generate TypeScript client
 ```
 
-Use the plugin's generator to create new projects. For example, to create a new React app or library:
+## Environment Setup
 
-```sh
-# Generate an app
-npx nx g @nx/react:app demo
-
-# Generate a library
-npx nx g @nx/react:lib some-lib
+### API (appsettings.Development.json)
+```json
+{
+  "CosmosDb": {
+    "Endpoint": "your-cosmos-endpoint",
+    "Key": "your-cosmos-key",
+    "DatabaseName": "voli-dev"
+  },
+  "Auth": {
+    "Authority": "your-auth-authority",
+    "Audience": "your-auth-audience"
+  }
+}
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
-
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Set up CI!
-
-### Step 1
-
-To connect to Nx Cloud, run the following command:
-
-```sh
-npx nx connect
+### Web (.env.local)
+```
+NEXT_PUBLIC_API_BASE_URL=http://localhost:5000
+NEXT_PUBLIC_AI_ENABLED=false
 ```
 
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
+## License
 
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-### Step 2
-
-Use the following command to configure a CI workflow for your workspace:
-
-```sh
-npx nx g ci-workflow
-```
-
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+MIT

@@ -1,0 +1,10 @@
+apps/api
+apps/e2e
+libs
+tools
+.github
+*.md
+!README.md
+nx.json
+tsconfig.base.json
+

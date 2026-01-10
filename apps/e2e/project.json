@@ -1,0 +1,17 @@
+{
+  "name": "e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/e2e",
+  "projectType": "application",
+  "tags": ["e2e"],
+  "targets": {
+    "e2e": {
+      "executor": "@nx/playwright:playwright",
+      "outputs": ["{workspaceRoot}/dist/.playwright"],
+      "options": {
+        "config": "apps/e2e/playwright.config.ts"
+      }
+    }
+  }
+}
+
