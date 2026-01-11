@@ -13,9 +13,9 @@ import {
   AlertTitle,
 } from '@voli/ui';
 import Link from 'next/link';
-import { Users, Clock, TrendingUp, CheckCircle, AlertCircle, Calendar, Mail, ArrowRight } from 'lucide-react';
+import { Users, Clock, TrendingUp, CheckCircle, AlertCircle, Calendar, Mail } from 'lucide-react';
 
-export default function Index() {
+export default function DashboardPage() {
   return (
     <Container size="full" className="py-8 space-y-8">
       {/* Header */}
@@ -39,7 +39,7 @@ export default function Index() {
           <CardContent>
             <div className="text-2xl font-bold">1,234</div>
             <p className="text-xs text-muted-foreground">
-              <span className="text-green-600">+12%</span> from last month
+              <span className="text-success">+12%</span> from last month
             </p>
           </CardContent>
         </Card>
@@ -52,7 +52,7 @@ export default function Index() {
           <CardContent>
             <div className="text-2xl font-bold">8,542</div>
             <p className="text-xs text-muted-foreground">
-              <span className="text-green-600">+23%</span> from last month
+              <span className="text-success">+23%</span> from last month
             </p>
           </CardContent>
         </Card>
@@ -161,9 +161,7 @@ export default function Index() {
               <CardTitle>Active Opportunities</CardTitle>
               <CardDescription>Manage your volunteer opportunities</CardDescription>
             </div>
-            <Button variant="outline" size="sm" asChild>
-              <Link href="/opportunities">View All <ArrowRight className="ml-2 h-4 w-4" /></Link>
-            </Button>
+            <Button variant="outline" size="sm">View All</Button>
           </div>
         </CardHeader>
         <CardContent>
