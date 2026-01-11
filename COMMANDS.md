@@ -59,6 +59,18 @@ pnpm nx lint api
 pnpm nx format api
 ```
 
+## Vercel Deployment
+
+```bash
+# Check latest Vercel deployment status and build logs
+pnpm vercel:status
+
+# View deployment logs
+pnpm vercel:logs
+```
+
+The `vercel:status` command is useful after pushing to check if the deployment succeeded and view any build errors.
+
 ## Testing
 
 ```bash

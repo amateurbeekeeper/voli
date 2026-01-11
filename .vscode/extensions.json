@@ -1,7 +1,37 @@
 {
   "recommendations": [
+    // Nx
     "nrwl.angular-console",
+    
+    // TypeScript / JavaScript
+    "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
-    "dbaeumer.vscode-eslint"
+    "ms-vscode.vscode-typescript-next",
+    
+    // React / Next.js
+    "dsznajder.es7-react-js-snippets",
+    
+    // Tailwind CSS
+    "bradlc.vscode-tailwindcss",
+    
+    // C# / .NET
+    "ms-dotnettools.csharp",
+    "ms-dotnettools.csdevkit",
+    
+    // Git
+    "eamodio.gitlens",
+    
+    // General
+    "editorconfig.editorconfig",
+    "usernamehw.errorlens",
+    "christian-kohler.path-intellisense",
+    "formulahendry.auto-rename-tag",
+    
+    // Testing
+    "vitest.explorer",
+    "ms-playwright.playwright",
+    
+    // Utilities
+    "streetsidesoftware.code-spell-checker"
   ]
 }

@@ -1,0 +1,188 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    // Editor settings
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit",
+      "source.organizeImports": "explicit"
+    },
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.exclude": {
+      "**/.git": true,
+      "**/.DS_Store": true,
+      "**/node_modules": true,
+      "**/.next": true,
+      "**/dist": true,
+      "**/tmp": true,
+      "**/.nx": true
+    },
+    "files.watcherExclude": {
+      "**/.git/objects/**": true,
+      "**/.git/subtree-cache/**": true,
+      "**/node_modules/**": true,
+      "**/.next/**": true,
+      "**/dist/**": true,
+      "**/.nx/cache/**": true
+    },
+    
+    // TypeScript settings
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+    "typescript.preferences.importModuleSpecifier": "relative",
+    
+    // ESLint settings
+    "eslint.validate": [
+      "javascript",
+      "javascriptreact",
+      "typescript",
+      "typescriptreact"
+    ],
+    "eslint.workingDirectories": [
+      { "pattern": "./web" },
+      { "pattern": "./ui" },
+      { "pattern": "./apps/e2e" }
+    ],
+    
+    // File associations
+    "files.associations": {
+      "*.css": "tailwindcss"
+    },
+    
+    // Tailwind CSS IntelliSense
+    "tailwindCSS.experimental.classRegex": [
+      ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+      ["cn\\(([^)]*)\\)", "(?:'|\"|`)([^\"'`]*)(?:'|\"|`)"]
+    ],
+    "tailwindCSS.includeLanguages": {
+      "typescript": "javascript",
+      "typescriptreact": "javascript"
+    },
+    
+    // Prettier settings
+    "prettier.configPath": ".prettierrc",
+    "prettier.ignorePath": ".prettierignore",
+    
+    // Nx Console
+    "nx.enableLibraryImports": true,
+    
+    // C# / .NET settings
+    "omnisharp.enableRoslynAnalyzers": true,
+    "omnisharp.enableEditorConfigSupport": true,
+    "omnisharp.organizeImportsOnFormat": true,
+    
+    // Search settings
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/.next": true,
+      "**/dist": true,
+      "**/.nx/cache": true,
+      "**/pnpm-lock.yaml": true,
+      "**/coverage": true
+    },
+    
+    // Terminal settings
+    "terminal.integrated.defaultProfile.osx": "zsh",
+    "terminal.integrated.cwd": "${workspaceFolder}",
+    
+    // Git settings
+    "git.autofetch": true,
+    "git.confirmSync": false,
+    
+    // Language-specific settings
+    "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[json]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[jsonc]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[css]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[scss]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[markdown]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.wordWrap": "on"
+    },
+    "[csharp]": {
+      "editor.defaultFormatter": "ms-dotnettools.csharp",
+      "editor.formatOnSave": true
+    }
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Dev: Start Web + API",
+        "type": "shell",
+        "command": "pnpm dev",
+        "problemMatcher": [],
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated"
+        },
+        "isBackground": true
+      },
+      {
+        "label": "Build: All Projects",
+        "type": "shell",
+        "command": "pnpm build",
+        "problemMatcher": "$tsc"
+      },
+      {
+        "label": "Test: All Unit Tests",
+        "type": "shell",
+        "command": "pnpm test:unit",
+        "problemMatcher": []
+      },
+      {
+        "label": "Lint: All Projects",
+        "type": "shell",
+        "command": "pnpm lint",
+        "problemMatcher": "$eslint-stylish"
+      },
+      {
+        "label": "Vercel: Check Deployment Status",
+        "type": "shell",
+        "command": "pnpm vercel:status",
+        "problemMatcher": [],
+        "presentation": {
+          "reveal": "always"
+        }
+      },
+      {
+        "label": "Storybook: Start UI Storybook",
+        "type": "shell",
+        "command": "pnpm nx storybook ui",
+        "problemMatcher": [],
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated"
+        },
+        "isBackground": true
+      }
+    ]
+  }
+}

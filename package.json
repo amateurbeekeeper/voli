@@ -17,7 +17,9 @@
     "test:e2e": "nx e2e e2e",
     "test:watch": "nx run-many -t test --all --watch",
     "seed:dev": "curl -X POST http://localhost:5000/api/seed",
-    "seed:staging": "curl -X POST http://staging-api-url/api/seed"
+    "seed:staging": "curl -X POST http://staging-api-url/api/seed",
+    "vercel:status": "bash scripts/check-vercel-status.sh",
+    "vercel:logs": "npx vercel ls | head -5 && echo '' && echo '💡 Run: npx vercel inspect <deployment-url> --logs'"
   },
   "private": true,
   "devDependencies": {
