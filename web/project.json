@@ -9,7 +9,10 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "next dev",
-        "cwd": "web"
+        "cwd": "web",
+        "env": {
+          "TURBOPACK": "0"
+        }
       }
     },
     "build": {
@@ -35,6 +38,10 @@
         "command": "vitest",
         "cwd": "web"
       }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
     }
   }
 }

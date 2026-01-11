@@ -56,7 +56,7 @@ export * from './lib/components/resizable';
 // Feedback Components
 export * from './lib/components/toast';
 export * from './lib/components/toaster';
-export * from './lib/components/sonner';
+export { Toaster as SonnerToaster } from './lib/components/sonner';
 export * from './lib/components/spinner';
 
 // Utility Components

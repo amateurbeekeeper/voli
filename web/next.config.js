@@ -21,6 +21,41 @@ const nextConfig = {
   output: undefined, // Use default (not standalone) for Vercel
   // Optimize file watching for monorepo
   webpack: (config, { dev, isServer }) => {
+    // Resolve UI library's internal path aliases
+    // This allows @/ imports in @voli/ui components to resolve correctly
+    const path = require('path');
+    const webpack = require('webpack');
+    const uiSrcPath = path.resolve(__dirname, '../ui/src');
+    
+    // Set up alias for @/ to point to UI library src
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': uiSrcPath,
+    };
+
+    // Add UI src to module resolution paths
+    if (!config.resolve.modules) {
+      config.resolve.modules = ['node_modules'];
+    }
+    if (Array.isArray(config.resolve.modules)) {
+      config.resolve.modules.push(uiSrcPath);
+    }
+
+    // Use NormalModuleReplacementPlugin to rewrite @/ imports in UI library files
+    config.plugins = config.plugins || [];
+    config.plugins.push(
+      new webpack.NormalModuleReplacementPlugin(
+        /^@\/(.*)$/,
+        (resource) => {
+          // Only rewrite if the resource is from the UI library
+          if (resource.context && resource.context.includes('ui/src')) {
+            const relativePath = resource.request.replace('@/', '');
+            resource.request = path.resolve(uiSrcPath, relativePath);
+          }
+        }
+      )
+    );
+
     if (dev) {
       // Optimize watch options for large monorepos
       config.watchOptions = {

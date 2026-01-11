@@ -1,5 +1,7 @@
 'use client';
 
+// All UI components are from Storybook (@voli/ui)
+// This ensures consistency and allows components to be previewed/tested in Storybook
 import {
   Button,
   Card,
@@ -15,7 +17,6 @@ import {
   AlertTitle,
   Avatar,
   AvatarFallback,
-  AvatarImage,
   Progress,
   Table,
   TableBody,
@@ -27,7 +28,6 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-  Skeleton,
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -35,7 +35,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@voli/ui';
@@ -56,7 +55,6 @@ import {
   Filter,
   Search,
   Bell,
-  Settings,
   Activity,
   Award,
   Target,
@@ -70,7 +68,7 @@ export default function Index() {
         <div className="flex items-center justify-between">
                 <div>
             <h1 className="text-4xl font-bold tracking-tight">Dashboard</h1>
-            <p className="text-muted-foreground mt-2">Welcome back! Here's what's happening today.</p>
+            <p className="text-muted-foreground mt-2">Welcome back! Here&apos;s what&apos;s happening today.</p>
           </div>
           <div className="flex items-center gap-3">
             <Button variant="outline" size="sm">
@@ -232,7 +230,7 @@ export default function Index() {
               <Card className="col-span-3">
                 <CardHeader>
                   <CardTitle>Performance</CardTitle>
-                  <CardDescription>This week's metrics</CardDescription>
+                  <CardDescription>This week&apos;s metrics</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="space-y-2">
