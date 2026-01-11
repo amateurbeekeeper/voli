@@ -45,6 +45,10 @@ Thumbs.db
 .next
 out
 
+# Turbopack cache
+.turbo
+*.sst
+
 
 storybook-static
 
