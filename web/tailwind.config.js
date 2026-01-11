@@ -3,9 +3,8 @@ module.exports = {
   darkMode: ['class'],
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
-    '../../ui/src/**/*.{js,ts,jsx,tsx}',
-    // Exclude UI library source files that might cause infinite scanning
-    '!../../ui/src/styles.css',
+    // Only scan UI library component files, not all source files
+    '../../ui/src/lib/components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {

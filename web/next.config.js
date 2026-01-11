@@ -29,9 +29,14 @@ const nextConfig = {
           '**/.next/**',
           '**/dist/**',
           '**/.nx/**',
+          '**/ui/**', // Ignore entire UI library during watch
         ],
-        aggregateTimeout: 300,
+        aggregateTimeout: 500,
         poll: false,
+      };
+      // Disable webpack's performance hints in dev
+      config.performance = {
+        hints: false,
       };
     }
     return config;
