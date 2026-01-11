@@ -111,6 +111,12 @@ public class HoursController : ControllerBase
             return BadRequest("organisationId query parameter is required");
         }
 
+        if (string.IsNullOrEmpty(userId))
+        {
+            _logger.LogWarning("PATCH /api/hours/{Id}/approve - User ID not found in token", id);
+            return Unauthorized("User ID not found in token");
+        }
+
         try
         {
             var hoursLog = await _service.ApproveHoursLogAsync(id, organisationId, userId);
@@ -146,6 +152,12 @@ public class HoursController : ControllerBase
         {
             _logger.LogWarning("PATCH /api/hours/{Id}/reject - Missing organisationId query parameter", id);
             return BadRequest("organisationId query parameter is required");
+        }
+
+        if (string.IsNullOrEmpty(userId))
+        {
+            _logger.LogWarning("PATCH /api/hours/{Id}/reject - User ID not found in token", id);
+            return Unauthorized("User ID not found in token");
         }
 
         try
