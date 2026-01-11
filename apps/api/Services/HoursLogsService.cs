@@ -52,10 +52,9 @@ public class HoursLogsService : IHoursLogsService
         _logger.LogDebug("HoursLogsService.GetHoursLogsByOrganisationIdAsync - Starting for organisation: {OrganisationId}", organisationId);
         try
         {
-            var allHoursLogs = await _repository.GetAllAsync();
-            var hoursLogs = allHoursLogs.Where(h => h.OrganisationId == organisationId).ToList();
+            var hoursLogs = await _repository.GetByOrganisationIdAsync(organisationId);
             _logger.LogInformation("HoursLogsService.GetHoursLogsByOrganisationIdAsync - Retrieved {Count} hours logs for organisation: {OrganisationId}", 
-                hoursLogs.Count, organisationId);
+                hoursLogs.Count(), organisationId);
             return hoursLogs;
         }
         catch (Exception ex)
@@ -72,9 +71,7 @@ public class HoursLogsService : IHoursLogsService
             id, organisationId, reviewedByUserId);
         try
         {
-            var allHoursLogs = await _repository.GetAllAsync();
-            var hoursLog = allHoursLogs.FirstOrDefault(h => h.Id == id && h.OrganisationId == organisationId);
-            
+            var hoursLog = await _repository.GetByIdAsync(id, organisationId);
             if (hoursLog == null)
             {
                 _logger.LogWarning("HoursLogsService.ApproveHoursLogAsync - Hours log not found: {Id}, Organisation: {OrganisationId}", 
@@ -106,9 +103,7 @@ public class HoursLogsService : IHoursLogsService
             id, organisationId, reviewedByUserId);
         try
         {
-            var allHoursLogs = await _repository.GetAllAsync();
-            var hoursLog = allHoursLogs.FirstOrDefault(h => h.Id == id && h.OrganisationId == organisationId);
-            
+            var hoursLog = await _repository.GetByIdAsync(id, organisationId);
             if (hoursLog == null)
             {
                 _logger.LogWarning("HoursLogsService.RejectHoursLogAsync - Hours log not found: {Id}, Organisation: {OrganisationId}", 
