@@ -9,8 +9,6 @@ Quick reference for all available commands in the Voli project.
 pnpm dev
 
 # Run web only
-pnpm nx serve web
-# or
 pnpm nx dev web
 
 # Run API only

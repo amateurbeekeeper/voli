@@ -19,6 +19,23 @@ const nextConfig = {
   },
   // Explicitly set output to help Vercel detect App Router structure
   output: undefined, // Use default (not standalone) for Vercel
+  // Optimize file watching for monorepo
+  webpack: (config, { dev, isServer }) => {
+    if (dev) {
+      // Optimize watch options for large monorepos
+      config.watchOptions = {
+        ignored: [
+          '**/node_modules/**',
+          '**/.next/**',
+          '**/dist/**',
+          '**/.nx/**',
+        ],
+        aggregateTimeout: 300,
+        poll: false,
+      };
+    }
+    return config;
+  },
   // Ensure experimental features that might help with detection
   experimental: {
     // Enable server actions if needed (already enabled by default in Next.js 15)

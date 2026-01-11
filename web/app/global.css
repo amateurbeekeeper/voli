@@ -1,3 +1,1 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Web app specific styles - Tailwind is processed via UI library styles */

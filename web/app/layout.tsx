@@ -1,8 +1,8 @@
+// Import UI library styles first (contains Tailwind directives and CSS variables)
+import '../../ui/src/styles.css';
+// Import web app specific styles (minimal, UI library handles Tailwind)
 import './global.css';
 import { AppHeader } from './components/header';
-
-// Import UI library styles for CSS variables and Tailwind utilities
-import '../../ui/src/styles.css';
 
 export const metadata = {
   title: 'Voli - Volunteer Platform',
