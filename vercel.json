@@ -1,8 +1,8 @@
 {
-  "buildCommand": "pnpm install --frozen-lockfile && pnpm nx build web --skip-nx-cache",
-  "outputDirectory": "web/.next",
+  "buildCommand": "cd .. && pnpm install --frozen-lockfile && pnpm nx build web --skip-nx-cache",
+  "outputDirectory": ".next",
   "framework": "nextjs",
-  "installCommand": "pnpm install --frozen-lockfile",
-  "devCommand": "cd web && next dev --port $PORT",
+  "installCommand": "cd .. && pnpm install --frozen-lockfile",
+  "devCommand": "next dev --port $PORT",
   "regions": ["iad1"]
 }
