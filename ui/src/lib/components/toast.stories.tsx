@@ -10,7 +10,7 @@ import {
   ToastViewport,
 } from './toast';
 import { Button } from './button';
-import { useToast } from '../hooks/use-toast';
+import { useToast } from '../../hooks/use-toast';
 
 const meta = {
   title: 'Components/Toast',
