@@ -20,6 +20,7 @@
     "seed:staging": "curl -X POST http://staging-api-url/api/seed",
     "vercel:status": "bash scripts/check-vercel-status.sh",
     "vercel:logs": "npx vercel ls | head -5 && echo '' && echo '💡 Run: npx vercel inspect <deployment-url> --logs'",
+    "deploy": "bash scripts/deploy.sh",
     "storybook": "nx storybook ui",
     "storybook:build": "nx build-storybook ui",
     "storybook:static": "nx static-storybook ui"

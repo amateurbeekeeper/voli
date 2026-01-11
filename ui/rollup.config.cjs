@@ -16,7 +16,6 @@ module.exports = withNx(
   {
     // Provide additional rollup configuration here. See: https://rollupjs.org/configuration-options
     plugins: [
-      // Override TypeScript plugin to skip type checking (only transpile)
       svg({
         svgo: false,
         titleProp: true,
