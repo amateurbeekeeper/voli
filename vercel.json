@@ -1,6 +1,9 @@
 {
-  "buildCommand": "pnpm nx build web",
+  "buildCommand": "pnpm nx build web --skip-nx-cache",
   "outputDirectory": "web/.next",
   "framework": "nextjs",
-  "installCommand": "pnpm install"
+  "installCommand": "pnpm install --frozen-lockfile",
+  "devCommand": "pnpm nx dev web",
+  "regions": ["iad1"],
+  "nodeVersion": "22.x"
 }
