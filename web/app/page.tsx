@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Badge } from '@voli/ui';
+import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Badge, Alert, AlertDescription, AlertTitle, Separator } from '@voli/ui';
 import Link from 'next/link';
 
 export default function Index() {
@@ -53,6 +53,17 @@ export default function Index() {
             <Badge variant="warning">Pending</Badge>
             <Badge variant="destructive">Rejected</Badge>
           </div>
+        </div>
+
+        <Separator className="my-8" />
+
+        <div className="space-y-4">
+          <Alert>
+            <AlertTitle>Welcome to Voli!</AlertTitle>
+            <AlertDescription>
+              Discover volunteer opportunities that match your interests and make a difference in your community.
+            </AlertDescription>
+          </Alert>
         </div>
       </div>
     </div>

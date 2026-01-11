@@ -7,6 +7,12 @@ import {
   CardHeader,
   CardTitle,
   Badge,
+  Input,
+  Label,
+  Alert,
+  AlertDescription,
+  AlertTitle,
+  Separator,
 } from '@voli/ui';
 
 export default function ComponentsPage() {
@@ -170,6 +176,82 @@ export default function ComponentsPage() {
           </Card>
         </section>
 
+        {/* Input and Form Components */}
+        <section className="space-y-4">
+          <h2 className="text-2xl font-semibold">Form Components</h2>
+          <Card>
+            <CardHeader>
+              <CardTitle>Input Fields</CardTitle>
+              <CardDescription>
+                Text inputs with labels for forms
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="name">Name</Label>
+                <Input id="name" placeholder="Enter your name" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" type="email" placeholder="name@example.com" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input id="password" type="password" placeholder="••••••••" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="disabled">Disabled Input</Label>
+                <Input id="disabled" placeholder="This is disabled" disabled />
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Alert Components */}
+        <section className="space-y-4">
+          <h2 className="text-2xl font-semibold">Alerts</h2>
+          <div className="space-y-4">
+            <Alert>
+              <AlertTitle>Success!</AlertTitle>
+              <AlertDescription>
+                Your application has been submitted successfully. We'll review it and get back to you soon.
+              </AlertDescription>
+            </Alert>
+
+            <Alert variant="destructive">
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>
+                There was an error processing your request. Please try again.
+              </AlertDescription>
+            </Alert>
+          </div>
+        </section>
+
+        {/* Separator */}
+        <section className="space-y-4">
+          <h2 className="text-2xl font-semibold">Separator</h2>
+          <Card>
+            <CardHeader>
+              <CardTitle>Visual Separator</CardTitle>
+              <CardDescription>Horizontal and vertical dividers</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-4">
+                <div>
+                  <p className="text-sm text-gray-600 mb-2">Above</p>
+                  <Separator />
+                  <p className="text-sm text-gray-600 mt-2">Below</p>
+                </div>
+                <div className="flex items-center gap-4 h-20">
+                  <span className="text-sm">Left</span>
+                  <Separator orientation="vertical" />
+                  <span className="text-sm">Right</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
         {/* Usage Information */}
         <section className="space-y-4">
           <Card>
@@ -189,6 +271,12 @@ export default function ComponentsPage() {
   CardHeader,
   CardTitle,
   Badge,
+  Input,
+  Label,
+  Alert,
+  AlertDescription,
+  AlertTitle,
+  Separator,
 } from '@voli/ui';`}</pre>
               </div>
               <p className="text-sm text-gray-600 mt-4">
