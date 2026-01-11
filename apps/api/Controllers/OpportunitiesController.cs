@@ -77,8 +77,8 @@ public class OpportunitiesController : ControllerBase
 
         try
         {
-            _logger.LogDebug("POST /api/opportunities - Request body: Title={Title}, Location={Location}, HoursPerWeek={HoursPerWeek}", 
-                dto.Title, dto.Location, dto.HoursPerWeek);
+            _logger.LogDebug("POST /api/opportunities - Request body: Title={Title}, Location={Location}, TimeCommitment={TimeCommitment}", 
+                dto.Title, dto.Location, dto.TimeCommitment);
             
             var opportunity = await _service.CreateOpportunityAsync(organisationId, dto);
             
