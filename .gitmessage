@@ -1,0 +1,23 @@
+# <type>(<scope>): <subject>
+# 
+# <body>
+# 
+# <footer>
+#
+# Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore
+# Scopes: api, web, ui, docs, vercel, azure, deps, config, scripts, types
+#
+# Subject rules:
+# - Use imperative mood: "Add feature" not "Added feature"
+# - 50 characters or less
+# - Capitalize first letter
+# - No period at end
+#
+# Example:
+# feat(api): add user authentication endpoint
+#
+# - Implement POST /api/auth/login endpoint
+# - Add JWT token generation
+# - Include refresh token support
+#
+# Closes #123

@@ -14,6 +14,18 @@ This guide helps you run the project locally without Azure resources.
    ```bash
    pnpm install
    ```
+   
+   This automatically sets up commit message enforcement (husky hooks will be installed).
+
+2. **Configure git commit template (recommended):**
+   ```bash
+   git config commit.template .gitmessage
+   ```
+   
+   Or run:
+   ```bash
+   bash scripts/setup-commit-enforcement.sh
+   ```
 
 2. **Run the web app locally:**
    ```bash

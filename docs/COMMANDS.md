@@ -125,6 +125,21 @@ pnpm nx static-storybook ui
 
 **Note:** Storybook is currently only available locally. See [STORYBOOK_DEPLOYMENT.md](./STORYBOOK_DEPLOYMENT.md) for deployment options.
 
+## Deployment
+
+```bash
+# Deploy (lint, build, commit, push, check Vercel)
+pnpm deploy
+
+# Deploy with custom commit message
+pnpm deploy "feat(web): add new feature"
+
+# Or use the script directly
+bash scripts/deploy.sh "chore(vercel): deploy changes"
+```
+
+**Note:** The deploy script commits changes, so the commit message must follow the standard format: `<type>(<scope>): <subject>`. Default is `chore(vercel): deploy changes`.
+
 ## Other Commands
 
 ```bash

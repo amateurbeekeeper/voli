@@ -4,39 +4,90 @@ This document outlines the rules and guidelines for contributing to the Voli pro
 
 ## 1. Commit Messages
 
-**Always write detailed, meaningful commit messages.**
+**REQUIRED: All commits MUST follow the standardized format below.**
 
-### Commit Message Format
+This is mandatory - commits that don't follow this format will be rejected or asked to be amended.
 
-Follow this format for all commits:
+### Commit Message Format (REQUIRED)
+
+Every commit message MUST follow this exact format:
 
 ```
 <type>(<scope>): <subject>
 
-<body>
+[optional body]
 
-<footer>
+[optional footer]
 ```
 
-### Commit Types
+### Rules
 
-Use one of the following types:
+1. **Type and scope are REQUIRED** - Every commit must have both
+2. **Subject is REQUIRED** - Must be a clear, concise description
+3. **Format MUST match exactly** - No deviations allowed
+
+### Commit Types (REQUIRED - choose exactly one)
+
 - `feat`: A new feature
 - `fix`: A bug fix
 - `docs`: Documentation only changes
-- `style`: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
-- `refactor`: A code change that neither fixes a bug nor adds a feature
-- `perf`: A code change that improves performance
-- `test`: Adding missing tests or correcting existing tests
-- `build`: Changes that affect the build system or external dependencies (example scopes: npm, pnpm, dotnet)
-- `ci`: Changes to CI configuration files and scripts
-- `chore`: Other changes that don't modify src or test files
+- `style`: Code style changes (formatting, whitespace, etc.)
+- `refactor`: Code refactoring (no feature change or bug fix)
+- `perf`: Performance improvements
+- `test`: Adding or updating tests
+- `build`: Build system or dependency changes
+- `ci`: CI/CD configuration changes
+- `chore`: Other changes (maintenance, config, etc.)
+
+### Scopes (REQUIRED - choose one or more, comma-separated)
+
+Common scopes:
+- `api`: Backend API changes
+- `web`: Frontend web app changes
+- `ui`: UI component library changes
+- `docs`: Documentation changes
+- `vercel`: Vercel deployment/config
+- `azure`: Azure deployment/config
+- `deps`: Dependencies
+- `config`: Configuration files
+- `scripts`: Script files
+- `types`: TypeScript types
+
+**Examples:**
+- `feat(api):` - API feature
+- `fix(web,ui):` - Fix affecting both web and UI
+- `docs:` - Documentation (scope can be omitted if obvious)
+
+### Subject Line Rules (REQUIRED)
+
+1. **Use imperative mood**: "Add feature" ✅, NOT "Added feature" ❌ or "Adds feature" ❌
+2. **50 characters or less**
+3. **Capitalize first letter**
+4. **No period at end**
+5. **Lowercase after the colon** (unless proper noun)
+
+### Body (Optional but Recommended)
+
+- Explain *what* and *why*, not just *how*
+- Wrap at 72 characters
+- Use bullet points (`-`) for multiple changes
+- Separate from subject with blank line
+
+### Footer (Optional)
+
+- Reference issues: `Closes #123`, `Fixes #456`
+- Breaking changes: `BREAKING CHANGE: <description>`
 
 ### Examples
 
-**Good commit messages:**
+**✅ GOOD - Simple fix:**
 ```
-feat(api): Add user authentication endpoint
+fix(vercel): correct output directory for web root
+```
+
+**✅ GOOD - Feature with body:**
+```
+feat(api): add user authentication endpoint
 
 - Implement POST /api/auth/login endpoint
 - Add JWT token generation
@@ -46,57 +97,106 @@ feat(api): Add user authentication endpoint
 Closes #123
 ```
 
+**✅ GOOD - Fix with scope:**
 ```
-fix(web): Resolve Tailwind CSS v4 compatibility issue
+fix(web): resolve Tailwind CSS v4 compatibility
 
 - Update PostCSS config to use @tailwindcss/postcss
 - Fix CSS import paths in Next.js layout
-- Replace @apply directives with direct CSS for v4 compatibility
+- Replace @apply directives with direct CSS
 
 Fixes #456
 ```
 
+**✅ GOOD - Docs:**
 ```
-docs: Add Storybook setup instructions
+docs: add Azure AD authentication setup guide
 
-- Document how to run Storybook locally
-- Add troubleshooting section for common issues
-- Include examples of component stories
+- Document Azure AD registration steps
+- Include configuration examples
+- Add deployment instructions
 ```
 
-**Bad commit messages:**
+**✅ GOOD - Multiple scopes:**
 ```
-fix: bug
-update
-changes
+refactor(api,web): standardize error handling
+
+- Create shared error response format
+- Update API controllers to use new format
+- Update web app error handling
+```
+
+**❌ BAD - Missing type:**
+```
+Update vercel config
+```
+
+**❌ BAD - Missing scope:**
+```
+fix: build error
+```
+
+**❌ BAD - Wrong mood:**
+```
+feat(api): Added new endpoint
+```
+
+**❌ BAD - Too long:**
+```
+fix(web): resolve issue with very long subject line that exceeds the character limit
+```
+
+**❌ BAD - No format:**
+```
 wip
+changes
+update
 ```
 
-### Commit Message Guidelines
+### Quick Reference Template
 
-1. **Subject line:**
-   - Use imperative mood ("Add feature" not "Added feature" or "Adds feature")
-   - First line should be 50 characters or less
-   - Capitalize the first letter
-   - No period at the end
+```
+<type>(<scope>): <subject>
 
-2. **Body (if needed):**
-   - Explain *what* and *why* vs. *how*
-   - Wrap at 72 characters
-   - Use bullet points for multiple changes
-   - Reference issues/PRs when applicable
+- What changed
+- Why it changed
+- Impact/notes
 
-3. **Footer (optional):**
-   - Reference issue numbers: `Closes #123`, `Fixes #456`
-   - Breaking changes: `BREAKING CHANGE: description of what broke`
+Refs #123
+```
 
-### Why Detailed Commit Messages Matter
+### Enforcement ✅
 
-- **History**: Makes it easy to understand why changes were made
-- **Debugging**: Helps identify when and why bugs were introduced
-- **Review**: Makes code reviews more efficient
-- **Documentation**: Serves as project documentation over time
-- **Collaboration**: Helps team members understand changes without reading code
+**Commit message enforcement is ACTIVE and REQUIRED.**
+
+All commits are automatically validated using commitlint via git hooks. Invalid commit messages will be rejected.
+
+**What's enforced:**
+- ✅ Commit type must be valid (`feat`, `fix`, `docs`, etc.)
+- ✅ Scope must be valid (`api`, `web`, `ui`, etc.)
+- ✅ Format must match: `<type>(<scope>): <subject>`
+- ✅ Subject must follow rules (imperative mood, length, etc.)
+- ✅ Type and scope must be lowercase
+
+**If your commit is rejected:**
+- You'll see helpful error messages
+- Fix the format and try again
+- See examples above for correct format
+
+**Setup details:**
+- Git commit template: `.gitmessage` (already configured)
+- Commitlint: `commitlint.config.js` (already configured)
+- Git hooks: `.husky/commit-msg` (automatically runs)
+
+See [COMMIT_MESSAGE_SETUP.md](./COMMIT_MESSAGE_SETUP.md) for more details.
+
+### Why This Standard Matters
+
+- **Consistency**: All commits look professional and uniform
+- **History**: Easy to search and understand commit history
+- **Automation**: Can generate changelogs automatically
+- **Debugging**: Quickly identify what changed and why
+- **Team Collaboration**: Clear communication about changes
 
 ## Future Rules
 

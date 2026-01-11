@@ -15,6 +15,18 @@ This guide will help you set up the Voli volunteer platform locally.
    ```bash
    pnpm install
    ```
+   
+   This automatically sets up commit message enforcement via husky hooks.
+
+2. (Optional) Configure git commit template:
+   ```bash
+   git config commit.template .gitmessage
+   ```
+   
+   Or run the setup script:
+   ```bash
+   bash scripts/setup-commit-enforcement.sh
+   ```
 
 2. Configure API environment:
    - Copy `apps/api/appsettings.Development.json` and update:

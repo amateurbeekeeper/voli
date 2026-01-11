@@ -33,8 +33,11 @@ libs/
 See [SETUP.md](./SETUP.md) for detailed setup instructions.
 
 ```bash
-# Install dependencies
+# Install dependencies (automatically sets up commit enforcement)
 pnpm install
+
+# Configure git commit template (recommended)
+git config commit.template .gitmessage
 
 # Run development servers (web + API)
 pnpm nx dev
@@ -48,6 +51,8 @@ pnpm nx test:e2e
 # View Storybook
 pnpm nx storybook ui
 ```
+
+**Note:** Commit message enforcement is automatically enabled via husky hooks. All commits must follow the format: `<type>(<scope>): <subject>`. See [CONTRIBUTING.md](./docs/CONTRIBUTING.md) for details.
 
 ## Key Features
 

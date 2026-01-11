@@ -5,7 +5,7 @@
 
 set -e  # Exit on error
 
-COMMIT_MSG="${1:-chore: deploy changes}"
+COMMIT_MSG="${1:-chore(vercel): deploy changes}"
 
 echo "🚀 Starting deployment workflow..."
 echo ""
