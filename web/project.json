@@ -8,8 +8,7 @@
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "next build",
-        "cwd": "web"
+        "command": "next build"
       },
       "dependsOn": ["^build"],
       "outputs": ["{workspaceRoot}/web/.next/!(cache)/**/*", "{workspaceRoot}/web/.next/!(cache)"],
