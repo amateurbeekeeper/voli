@@ -1,64 +1,146 @@
-using Voli.Api.DTOs;
 using Voli.Api.Models;
 using Voli.Api.Repositories;
+using Voli.Api.DTOs;
 
 namespace Voli.Api.Services;
 
 public class OpportunitiesService : IOpportunitiesService
 {
     private readonly IOpportunitiesRepository _repository;
+    private readonly ILogger<OpportunitiesService> _logger;
 
-    public OpportunitiesService(IOpportunitiesRepository repository)
+    public OpportunitiesService(IOpportunitiesRepository repository, ILogger<OpportunitiesService> logger)
     {
         _repository = repository;
+        _logger = logger;
+        _logger.LogDebug("OpportunitiesService initialized");
     }
 
     public async Task<IEnumerable<Opportunity>> GetPublishedOpportunitiesAsync()
     {
-        return await _repository.GetAllPublishedAsync();
+        _logger.LogDebug("OpportunitiesService.GetPublishedOpportunitiesAsync - Starting");
+        try
+        {
+            var allOpportunities = await _repository.GetAllAsync();
+            var published = allOpportunities.Where(o => o.IsPublished).ToList();
+            _logger.LogInformation("OpportunitiesService.GetPublishedOpportunitiesAsync - Retrieved {Count} published opportunities", published.Count);
+            return published;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "OpportunitiesService.GetPublishedOpportunitiesAsync - Error retrieving published opportunities");
+            throw;
+        }
     }
 
     public async Task<Opportunity?> GetOpportunityByIdAsync(string id)
     {
-        // For getting by ID, we need the organisationId as partition key
-        // This is a limitation - we'd need to query across partitions or maintain a secondary index
-        // For now, we'll use a workaround: query all published and filter
-        var opportunities = await _repository.GetAllPublishedAsync();
-        return opportunities.FirstOrDefault(o => o.Id == id);
+        _logger.LogDebug("OpportunitiesService.GetOpportunityByIdAsync - Starting for ID: {Id}", id);
+        try
+        {
+            var allOpportunities = await _repository.GetAllAsync();
+            var opportunity = allOpportunities.FirstOrDefault(o => o.Id == id);
+            
+            if (opportunity == null)
+            {
+                _logger.LogWarning("OpportunitiesService.GetOpportunityByIdAsync - Opportunity not found: {Id}", id);
+            }
+            else
+            {
+                _logger.LogDebug("OpportunitiesService.GetOpportunityByIdAsync - Found opportunity: {Id}, Title: {Title}", id, opportunity.Title);
+            }
+            
+            return opportunity;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "OpportunitiesService.GetOpportunityByIdAsync - Error retrieving opportunity: {Id}", id);
+            throw;
+        }
     }
 
     public async Task<Opportunity> CreateOpportunityAsync(string organisationId, CreateOpportunityDto dto)
     {
-        var opportunity = new Opportunity
+        _logger.LogInformation("OpportunitiesService.CreateOpportunityAsync - Creating opportunity for organisation: {OrganisationId}, Title: {Title}", 
+            organisationId, dto.Title);
+        try
         {
-            OrganisationId = organisationId,
-            Title = dto.Title,
-            Description = dto.Description,
-            Location = dto.Location,
-            Skills = dto.Skills,
-            CauseAreas = dto.CauseAreas,
-            TimeCommitment = dto.TimeCommitment,
-            Status = "draft"
-        };
+            var opportunity = new Opportunity
+            {
+                Id = Guid.NewGuid().ToString(),
+                OrganisationId = organisationId,
+                Title = dto.Title,
+                Description = dto.Description,
+                Location = dto.Location,
+                HoursPerWeek = dto.HoursPerWeek,
+                StartDate = dto.StartDate,
+                EndDate = dto.EndDate,
+                IsPublished = dto.IsPublished
+            };
 
-        return await _repository.CreateAsync(opportunity);
+            var created = await _repository.CreateAsync(opportunity);
+            _logger.LogInformation("OpportunitiesService.CreateOpportunityAsync - Created opportunity: {Id}, Organisation: {OrganisationId}", 
+                created.Id, organisationId);
+            return created;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "OpportunitiesService.CreateOpportunityAsync - Error creating opportunity for organisation: {OrganisationId}", 
+                organisationId);
+            throw;
+        }
     }
 
     public async Task<Opportunity?> UpdateOpportunityAsync(string id, string organisationId, UpdateOpportunityDto dto)
     {
-        var opportunity = await _repository.GetByIdAsync(id, organisationId);
-        if (opportunity == null)
-            return null;
+        _logger.LogInformation("OpportunitiesService.UpdateOpportunityAsync - Updating opportunity: {Id}, Organisation: {OrganisationId}", 
+            id, organisationId);
+        try
+        {
+            var allOpportunities = await _repository.GetAllAsync();
+            var opportunity = allOpportunities.FirstOrDefault(o => o.Id == id && o.OrganisationId == organisationId);
+            
+            if (opportunity == null)
+            {
+                _logger.LogWarning("OpportunitiesService.UpdateOpportunityAsync - Opportunity not found or access denied: {Id}, Organisation: {OrganisationId}", 
+                    id, organisationId);
+                return null;
+            }
 
-        if (dto.Title != null) opportunity.Title = dto.Title;
-        if (dto.Description != null) opportunity.Description = dto.Description;
-        if (dto.Location != null) opportunity.Location = dto.Location;
-        if (dto.Skills != null) opportunity.Skills = dto.Skills;
-        if (dto.CauseAreas != null) opportunity.CauseAreas = dto.CauseAreas;
-        if (dto.TimeCommitment != null) opportunity.TimeCommitment = dto.TimeCommitment;
-        if (dto.Status != null) opportunity.Status = dto.Status;
+            // Update fields if provided
+            if (!string.IsNullOrEmpty(dto.Title))
+            {
+                _logger.LogDebug("OpportunitiesService.UpdateOpportunityAsync - Updating title: {OldTitle} -> {NewTitle}", 
+                    opportunity.Title, dto.Title);
+                opportunity.Title = dto.Title;
+            }
+            if (!string.IsNullOrEmpty(dto.Description))
+                opportunity.Description = dto.Description;
+            if (!string.IsNullOrEmpty(dto.Location))
+                opportunity.Location = dto.Location;
+            if (dto.HoursPerWeek.HasValue)
+                opportunity.HoursPerWeek = dto.HoursPerWeek.Value;
+            if (dto.StartDate.HasValue)
+                opportunity.StartDate = dto.StartDate.Value;
+            if (dto.EndDate.HasValue)
+                opportunity.EndDate = dto.EndDate.Value;
+            if (dto.IsPublished.HasValue)
+            {
+                _logger.LogDebug("OpportunitiesService.UpdateOpportunityAsync - Updating published status: {OldStatus} -> {NewStatus}", 
+                    opportunity.IsPublished, dto.IsPublished.Value);
+                opportunity.IsPublished = dto.IsPublished.Value;
+            }
 
-        return await _repository.UpdateAsync(opportunity);
+            var updated = await _repository.UpdateAsync(opportunity);
+            _logger.LogInformation("OpportunitiesService.UpdateOpportunityAsync - Updated opportunity: {Id}, Organisation: {OrganisationId}", 
+                updated.Id, organisationId);
+            return updated;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "OpportunitiesService.UpdateOpportunityAsync - Error updating opportunity: {Id}, Organisation: {OrganisationId}", 
+                id, organisationId);
+            throw;
+        }
     }
 }
-

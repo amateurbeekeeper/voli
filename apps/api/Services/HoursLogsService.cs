@@ -1,59 +1,136 @@
-using Voli.Api.DTOs;
 using Voli.Api.Models;
 using Voli.Api.Repositories;
+using Voli.Api.DTOs;
 
 namespace Voli.Api.Services;
 
 public class HoursLogsService : IHoursLogsService
 {
     private readonly IHoursLogsRepository _repository;
+    private readonly ILogger<HoursLogsService> _logger;
 
-    public HoursLogsService(IHoursLogsRepository repository)
+    public HoursLogsService(IHoursLogsRepository repository, ILogger<HoursLogsService> logger)
     {
         _repository = repository;
+        _logger = logger;
+        _logger.LogDebug("HoursLogsService initialized");
     }
 
     public async Task<HoursLog> CreateHoursLogAsync(string studentUserId, CreateHoursLogDto dto)
     {
-        var hoursLog = new HoursLog
+        _logger.LogInformation("HoursLogsService.CreateHoursLogAsync - Creating hours log for student: {StudentUserId}, date: {Date}, hours: {Hours}", 
+            studentUserId, dto.Date, dto.Hours);
+        try
         {
-            OrganisationId = dto.OrganisationId,
-            OpportunityId = dto.OpportunityId,
-            StudentUserId = studentUserId,
-            Date = dto.Date,
-            Minutes = dto.Minutes,
-            Notes = dto.Notes,
-            Status = "submitted"
-        };
+            var hoursLog = new HoursLog
+            {
+                Id = Guid.NewGuid().ToString(),
+                StudentUserId = studentUserId,
+                OpportunityId = dto.OpportunityId,
+                OrganisationId = dto.OrganisationId,
+                Date = dto.Date,
+                Hours = dto.Hours,
+                Description = dto.Description,
+                Status = "pending"
+            };
 
-        return await _repository.CreateAsync(hoursLog);
+            var created = await _repository.CreateAsync(hoursLog);
+            _logger.LogInformation("HoursLogsService.CreateHoursLogAsync - Created hours log: {Id}, Student: {StudentUserId}, Date: {Date}, Hours: {Hours}", 
+                created.Id, studentUserId, dto.Date, dto.Hours);
+            return created;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "HoursLogsService.CreateHoursLogAsync - Error creating hours log for student: {StudentUserId}, opportunity: {OpportunityId}", 
+                studentUserId, dto.OpportunityId);
+            throw;
+        }
     }
 
     public async Task<IEnumerable<HoursLog>> GetHoursLogsByOrganisationIdAsync(string organisationId)
     {
-        return await _repository.GetByOrganisationIdAsync(organisationId);
+        _logger.LogDebug("HoursLogsService.GetHoursLogsByOrganisationIdAsync - Starting for organisation: {OrganisationId}", organisationId);
+        try
+        {
+            var allHoursLogs = await _repository.GetAllAsync();
+            var hoursLogs = allHoursLogs.Where(h => h.OrganisationId == organisationId).ToList();
+            _logger.LogInformation("HoursLogsService.GetHoursLogsByOrganisationIdAsync - Retrieved {Count} hours logs for organisation: {OrganisationId}", 
+                hoursLogs.Count, organisationId);
+            return hoursLogs;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "HoursLogsService.GetHoursLogsByOrganisationIdAsync - Error retrieving hours logs for organisation: {OrganisationId}", 
+                organisationId);
+            throw;
+        }
     }
 
     public async Task<HoursLog?> ApproveHoursLogAsync(string id, string organisationId, string reviewedByUserId)
     {
-        var hoursLog = await _repository.GetByIdAsync(id, organisationId);
-        if (hoursLog == null)
-            return null;
+        _logger.LogInformation("HoursLogsService.ApproveHoursLogAsync - Approving hours log: {Id}, Organisation: {OrganisationId}, ReviewedBy: {ReviewedByUserId}", 
+            id, organisationId, reviewedByUserId);
+        try
+        {
+            var allHoursLogs = await _repository.GetAllAsync();
+            var hoursLog = allHoursLogs.FirstOrDefault(h => h.Id == id && h.OrganisationId == organisationId);
+            
+            if (hoursLog == null)
+            {
+                _logger.LogWarning("HoursLogsService.ApproveHoursLogAsync - Hours log not found: {Id}, Organisation: {OrganisationId}", 
+                    id, organisationId);
+                return null;
+            }
 
-        hoursLog.Status = "approved";
-        hoursLog.ReviewedByUserId = reviewedByUserId;
-        return await _repository.UpdateAsync(hoursLog);
+            _logger.LogDebug("HoursLogsService.ApproveHoursLogAsync - Status change: {OldStatus} -> approved", hoursLog.Status);
+            hoursLog.Status = "approved";
+            hoursLog.ReviewedByUserId = reviewedByUserId;
+            hoursLog.ReviewedAt = DateTime.UtcNow;
+
+            var updated = await _repository.UpdateAsync(hoursLog);
+            _logger.LogInformation("HoursLogsService.ApproveHoursLogAsync - Approved hours log: {Id}, Organisation: {OrganisationId}, ReviewedBy: {ReviewedByUserId}", 
+                updated.Id, organisationId, reviewedByUserId);
+            return updated;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "HoursLogsService.ApproveHoursLogAsync - Error approving hours log: {Id}, Organisation: {OrganisationId}", 
+                id, organisationId);
+            throw;
+        }
     }
 
     public async Task<HoursLog?> RejectHoursLogAsync(string id, string organisationId, string reviewedByUserId)
     {
-        var hoursLog = await _repository.GetByIdAsync(id, organisationId);
-        if (hoursLog == null)
-            return null;
+        _logger.LogInformation("HoursLogsService.RejectHoursLogAsync - Rejecting hours log: {Id}, Organisation: {OrganisationId}, ReviewedBy: {ReviewedByUserId}", 
+            id, organisationId, reviewedByUserId);
+        try
+        {
+            var allHoursLogs = await _repository.GetAllAsync();
+            var hoursLog = allHoursLogs.FirstOrDefault(h => h.Id == id && h.OrganisationId == organisationId);
+            
+            if (hoursLog == null)
+            {
+                _logger.LogWarning("HoursLogsService.RejectHoursLogAsync - Hours log not found: {Id}, Organisation: {OrganisationId}", 
+                    id, organisationId);
+                return null;
+            }
 
-        hoursLog.Status = "rejected";
-        hoursLog.ReviewedByUserId = reviewedByUserId;
-        return await _repository.UpdateAsync(hoursLog);
+            _logger.LogDebug("HoursLogsService.RejectHoursLogAsync - Status change: {OldStatus} -> rejected", hoursLog.Status);
+            hoursLog.Status = "rejected";
+            hoursLog.ReviewedByUserId = reviewedByUserId;
+            hoursLog.ReviewedAt = DateTime.UtcNow;
+
+            var updated = await _repository.UpdateAsync(hoursLog);
+            _logger.LogInformation("HoursLogsService.RejectHoursLogAsync - Rejected hours log: {Id}, Organisation: {OrganisationId}, ReviewedBy: {ReviewedByUserId}", 
+                updated.Id, organisationId, reviewedByUserId);
+            return updated;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "HoursLogsService.RejectHoursLogAsync - Error rejecting hours log: {Id}, Organisation: {OrganisationId}", 
+                id, organisationId);
+            throw;
+        }
     }
 }
-
