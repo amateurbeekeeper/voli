@@ -6,6 +6,7 @@ tools
 *.md
 !README.md
 nx.json
-tsconfig.base.json
+# Don't ignore tsconfig.base.json - it's needed for TypeScript config resolution
+# tsconfig.base.json
 
 

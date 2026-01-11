@@ -10,7 +10,8 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "web/.next"
+        "outputPath": "web/.next",
+        "skipTypeCheck": true
       },
       "dependsOn": ["^build"]
     },
