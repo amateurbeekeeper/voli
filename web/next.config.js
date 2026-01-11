@@ -20,7 +20,7 @@ const nextConfig = {
   // Explicitly set output to help Vercel detect App Router structure
   output: undefined, // Use default (not standalone) for Vercel
   // Optimize file watching for monorepo
-  webpack: (config, { dev, isServer }) => {
+  webpack: (config, { dev }) => {
     // Resolve UI library's internal path aliases
     // This allows @/ imports in @voli/ui components to resolve correctly
     const path = require('path');

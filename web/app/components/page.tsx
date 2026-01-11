@@ -215,7 +215,7 @@ export default function ComponentsPage() {
             <Alert>
               <AlertTitle>Success!</AlertTitle>
               <AlertDescription>
-                Your application has been submitted successfully. We'll review it and get back to you soon.
+                Your application has been submitted successfully. We&apos;ll review it and get back to you soon.
               </AlertDescription>
             </Alert>
 
