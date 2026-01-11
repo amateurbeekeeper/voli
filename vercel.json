@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npx nx build web --prod && node scripts/generate-routes-manifest.js",
+  "buildCommand": "pnpm nx build web --prod && node scripts/generate-routes-manifest.js",
   "outputDirectory": "web/.next",
   "framework": "nextjs",
   "installCommand": "pnpm install --frozen-lockfile",
