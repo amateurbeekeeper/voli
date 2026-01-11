@@ -964,6 +964,57 @@ Web App (web/) → imports @voli/ui → composes dashboard
 
 ---
 
+## January 12, 2026
+
+### Decision: Commit Workflow and Hygiene Guidelines
+
+**Date:** January 12, 2026
+
+**Context:**
+- Need to establish clear guidelines for when to commit
+- Want to encourage frequent, logical commits for better history
+- Commit message format is already enforced, but commit frequency/hygiene needs guidelines
+
+**Decision:**
+- **Guideline:** Commit changes after every meaningful change
+- This is a **guideline**, not automatically enforced (commit frequency depends on context)
+- Goal is incremental, logical commits - not necessarily one commit per file edit
+- Avoid accumulating large batches of unrelated changes
+
+**When to Commit:**
+Make a commit when you've completed:
+- A feature or task
+- A bug fix
+- Documentation updates
+- Configuration changes
+- A logical unit of work
+
+**Benefits:**
+- **Clean history:** Each commit represents a single logical change
+- **Easier review:** Small, focused commits are easier to review
+- **Better debugging:** Can easily identify which commit introduced a change
+- **Easier rollback:** Can revert specific changes without affecting others
+- **Clearer progress:** Git history shows incremental progress
+
+**Documentation:**
+- `docs/CONTRIBUTING.md` - Section 1: Commit Workflow (detailed guidelines)
+- `docs/DECISION_LOG.md` - This entry (decision rationale)
+
+**Outcome:**
+✅ Commit workflow guidelines documented
+✅ Clear guidance on when to commit
+✅ Balance between frequent commits and practical workflow
+
+**Key Learning:**
+- **Guidelines vs. Enforcement** - Commit message format is enforced (via commitlint), but commit frequency is a guideline that depends on context
+- **Incremental progress** - Frequent, small commits create a clearer picture of project evolution
+- **Practical flexibility** - Guidelines allow judgment - some changes naturally go together
+
+**Related Decisions:**
+- See "Decision: Commit Message Standardization and Enforcement" (January 11, 2026) for commit message format enforcement
+
+---
+
 ## Summary of Key Principles Established
 
 1. **Pragmatism over Bleeding Edge:** Choose mature, stable tools over the latest versions when stability matters more than features
