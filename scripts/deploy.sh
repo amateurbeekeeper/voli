@@ -25,14 +25,6 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 echo "✅ UI lint passed"
-echo "   Linting UI library..."
-# TODO: Fix UI lint configuration - ESLint needs proper setup for UI library
-# Temporarily skipping UI lint due to ESLint configuration issues (see DECISION_LOG.md)
-if pnpm nx lint ui 2>/dev/null; then
-  echo "✅ UI lint passed"
-else
-  echo "⚠️  UI lint skipped (ESLint configuration needs fixing - see docs/DECISION_LOG.md)"
-fi
 echo "✅ All linting passed"
 echo ""
 

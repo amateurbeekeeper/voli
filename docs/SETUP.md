@@ -97,6 +97,56 @@ pnpm nx api:openapi
 pnpm nx api:client
 ```
 
+## API Setup
+
+### Prerequisites
+
+- **.NET 8.0 SDK** - Required for API development
+- **Azure Cosmos DB** - For data storage (or use Cosmos DB Emulator for local development)
+
+### Configuration
+
+1. **Copy example configuration:**
+   ```bash
+   cp apps/api/appsettings.Development.json.example apps/api/appsettings.Development.json
+   ```
+
+2. **Update `appsettings.Development.json`** with your Cosmos DB credentials:
+   ```json
+   {
+     "CosmosDb": {
+       "Endpoint": "https://your-cosmos-account.documents.azure.com:443/",
+       "Key": "your-cosmos-primary-key",
+       "DatabaseName": "voli-dev"
+     }
+   }
+   ```
+
+3. **Run the API:**
+   ```bash
+   pnpm nx serve api
+   ```
+
+4. **Verify API is running:**
+   - Health check: http://localhost:5000/api/health
+   - Swagger UI: http://localhost:5000/swagger
+
+### Azure Cosmos DB Emulator (Local Development)
+
+For local development without Azure subscription:
+
+1. Install [Azure Cosmos DB Emulator](https://learn.microsoft.com/en-us/azure/cosmos-db/local-emulator)
+2. Start the emulator
+3. Use endpoint: `https://localhost:8081`
+4. Use key from emulator (shown in emulator UI)
+
+### API Documentation
+
+- **Complete API Reference**: See [API_ENDPOINTS.md](./API_ENDPOINTS.md)
+- **Architecture & Deployment**: See [API_OVERVIEW.md](./API_OVERVIEW.md)
+- **Troubleshooting**: See [API_TROUBLESHOOTING.md](./API_TROUBLESHOOTING.md)
+- **Deployment Guide**: See [API_DEPLOYMENT_CHECKLIST.md](./API_DEPLOYMENT_CHECKLIST.md)
+
 ## Storybook
 
 View UI components:
