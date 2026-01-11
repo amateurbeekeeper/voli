@@ -4,6 +4,8 @@ module.exports = {
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     '../../ui/src/**/*.{js,ts,jsx,tsx}',
+    // Exclude UI library source files that might cause infinite scanning
+    '!../../ui/src/styles.css',
   ],
   theme: {
     extend: {

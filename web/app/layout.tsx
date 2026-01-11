@@ -1,6 +1,4 @@
-// Import UI library styles first (contains Tailwind directives and CSS variables)
-import '../../ui/src/styles.css';
-// Import web app specific styles (minimal, UI library handles Tailwind)
+// Import web app styles (contains Tailwind + CSS variables)
 import './global.css';
 import { AppHeader } from './components/header';
 
