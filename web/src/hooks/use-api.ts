@@ -3,44 +3,33 @@
  * 
  * This hook provides a configured API client instance
  * with authentication token injection
+ * 
+ * @deprecated Use specific hooks instead:
+ * - useOpportunities() for opportunities
+ * - useApplication() for applications
+ * - useHoursLog() for hours logging
+ * - useUser() for user profile
  */
 
 import { useMemo } from 'react';
 import { getApiBaseUrl } from '../lib/api';
-
-// TODO: Import generated API client types when available
-// import { OpportunitiesApi, ApplicationsApi, HoursApi } from '@voli/api-client';
-// import { getAuthToken } from '../lib/api';
+import {
+  opportunitiesApi,
+  applicationsApi,
+  hoursLogsApi,
+  userApi,
+  healthApi,
+} from '../lib/api-client';
 
 export const useApi = () => {
   const baseURL = useMemo(() => getApiBaseUrl(), []);
 
-  // TODO: Initialize API clients when generated
-  // const opportunitiesApi = useMemo(() => {
-  //   return new OpportunitiesApi({
-  //     baseURL,
-  //     accessToken: async () => await getAuthToken() || undefined,
-  //   });
-  // }, [baseURL]);
-
-  // const applicationsApi = useMemo(() => {
-  //   return new ApplicationsApi({
-  //     baseURL,
-  //     accessToken: async () => await getAuthToken() || undefined,
-  //   });
-  // }, [baseURL]);
-
-  // const hoursApi = useMemo(() => {
-  //   return new HoursApi({
-  //     baseURL,
-  //     accessToken: async () => await getAuthToken() || undefined,
-  //   });
-  // }, [baseURL]);
-
   return {
     baseURL,
-    // opportunitiesApi,
-    // applicationsApi,
-    // hoursApi,
+    opportunitiesApi,
+    applicationsApi,
+    hoursLogsApi,
+    userApi,
+    healthApi,
   };
 };
