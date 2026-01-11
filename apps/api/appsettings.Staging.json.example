@@ -1,0 +1,27 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "CosmosDb": {
+    "Endpoint": "https://your-cosmos-account.documents.azure.com:443/",
+    "Key": "your-cosmos-primary-key",
+    "DatabaseName": "voli-staging"
+  },
+  "Auth": {
+    "Authority": "https://login.microsoftonline.com/{tenant-id}",
+    "Audience": "{client-id}"
+  },
+  "Cors": {
+    "AllowedOrigins": [
+      "https://your-staging-web-app.vercel.app"
+    ]
+  },
+  "Seeding": {
+    "AllowSeeding": true,
+    "Secret": "your-staging-seed-secret"
+  }
+}

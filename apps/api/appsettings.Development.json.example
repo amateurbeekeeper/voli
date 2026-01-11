@@ -1,0 +1,28 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "CosmosDb": {
+    "Endpoint": "https://your-cosmos-account.documents.azure.com:443/",
+    "Key": "your-cosmos-primary-key",
+    "DatabaseName": "voli"
+  },
+  "Auth": {
+    "Authority": "https://login.microsoftonline.com/{tenant-id}",
+    "Audience": "{client-id}"
+  },
+  "Cors": {
+    "AllowedOrigins": [
+      "http://localhost:3000",
+      "https://localhost:3000"
+    ]
+  },
+  "Seeding": {
+    "AllowSeeding": true,
+    "Secret": "your-seed-secret-here"
+  }
+}

@@ -39,7 +39,7 @@ builder.Services.AddSwaggerGen(c =>
 // Cosmos DB configuration
 var cosmosEndpoint = builder.Configuration["CosmosDb:Endpoint"];
 var cosmosKey = builder.Configuration["CosmosDb:Key"];
-var cosmosDatabaseName = builder.Configuration["CosmosDb:DatabaseName"];
+var cosmosDatabaseName = builder.Configuration["CosmosDb:DatabaseName"] ?? "voli";
 
 if (!string.IsNullOrEmpty(cosmosEndpoint) && !string.IsNullOrEmpty(cosmosKey))
 {
@@ -97,6 +97,21 @@ builder.Services.AddAuthorization(options =>
 // Health checks
 builder.Services.AddHealthChecks();
 
+// CORS configuration
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() 
+    ?? new[] { "http://localhost:3000", "https://localhost:3000" };
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins(allowedOrigins)
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -107,6 +122,8 @@ if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();

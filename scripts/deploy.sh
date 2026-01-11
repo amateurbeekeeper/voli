@@ -18,12 +18,20 @@ if [ $? -ne 0 ]; then
   echo "❌ Web lint failed. Fix errors before deploying."
   exit 1
 fi
-echo "   Linting UI library (Storybook)..."
-# Skip UI lint if it's not configured (it's optional for Storybook)
+echo "   Linting UI library..."
+pnpm nx lint ui
+if [ $? -ne 0 ]; then
+  echo "❌ UI lint failed. Fix errors before deploying."
+  exit 1
+fi
+echo "✅ UI lint passed"
+echo "   Linting UI library..."
+# TODO: Fix UI lint configuration - ESLint needs proper setup for UI library
+# Temporarily skipping UI lint due to ESLint configuration issues (see DECISION_LOG.md)
 if pnpm nx lint ui 2>/dev/null; then
   echo "✅ UI lint passed"
 else
-  echo "⚠️  UI lint skipped (not configured or no files to lint)"
+  echo "⚠️  UI lint skipped (ESLint configuration needs fixing - see docs/DECISION_LOG.md)"
 fi
 echo "✅ All linting passed"
 echo ""
