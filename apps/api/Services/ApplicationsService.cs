@@ -1,6 +1,6 @@
+using Voli.Api.DTOs;
 using Voli.Api.Models;
 using Voli.Api.Repositories;
-using Voli.Api.DTOs;
 
 namespace Voli.Api.Services;
 
@@ -50,10 +50,9 @@ public class ApplicationsService : IApplicationsService
         _logger.LogDebug("ApplicationsService.GetApplicationsByOpportunityIdAsync - Starting for opportunity: {OpportunityId}", opportunityId);
         try
         {
-            var allApplications = await _repository.GetAllAsync();
-            var applications = allApplications.Where(a => a.OpportunityId == opportunityId).ToList();
+            var applications = await _repository.GetByOpportunityIdAsync(opportunityId);
             _logger.LogInformation("ApplicationsService.GetApplicationsByOpportunityIdAsync - Retrieved {Count} applications for opportunity: {OpportunityId}", 
-                applications.Count, opportunityId);
+                applications.Count(), opportunityId);
             return applications;
         }
         catch (Exception ex)
@@ -64,15 +63,13 @@ public class ApplicationsService : IApplicationsService
         }
     }
 
-    public async Task<Application?> UpdateApplicationStatusAsync(string id, string opportunityId, string status)
+    public async Task<Application?> UpdateApplicationStatusAsync(string id, string opportunityId, UpdateApplicationStatusDto dto)
     {
         _logger.LogInformation("ApplicationsService.UpdateApplicationStatusAsync - Updating application: {Id}, Opportunity: {OpportunityId}, Status: {Status}", 
-            id, opportunityId, status);
+            id, opportunityId, dto.Status);
         try
         {
-            var allApplications = await _repository.GetAllAsync();
-            var application = allApplications.FirstOrDefault(a => a.Id == id && a.OpportunityId == opportunityId);
-            
+            var application = await _repository.GetByIdAsync(id, opportunityId);
             if (application == null)
             {
                 _logger.LogWarning("ApplicationsService.UpdateApplicationStatusAsync - Application not found: {Id}, Opportunity: {OpportunityId}", 
@@ -81,12 +78,12 @@ public class ApplicationsService : IApplicationsService
             }
 
             _logger.LogDebug("ApplicationsService.UpdateApplicationStatusAsync - Status change: {OldStatus} -> {NewStatus}", 
-                application.Status, status);
-            application.Status = status;
+                application.Status, dto.Status);
+            application.Status = dto.Status;
 
             var updated = await _repository.UpdateAsync(application);
             _logger.LogInformation("ApplicationsService.UpdateApplicationStatusAsync - Updated application: {Id}, Status: {Status}", 
-                updated.Id, status);
+                updated.Id, dto.Status);
             return updated;
         }
         catch (Exception ex)

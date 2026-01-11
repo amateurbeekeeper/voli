@@ -1,3 +1,4 @@
+using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Logging;
 using Voli.Api.Data;
 using Voli.Api.Models;
@@ -14,5 +15,29 @@ public class OpportunitiesRepository : BaseRepository<Opportunity>, IOpportuniti
     protected override string GetPartitionKeyValue(Opportunity item)
     {
         return item.OrganisationId;
+    }
+
+    public async Task<IEnumerable<Opportunity>> GetByOrganisationIdAsync(string organisationId)
+    {
+        return await GetAllAsync(organisationId);
+    }
+
+    public async Task<IEnumerable<Opportunity>> GetAllPublishedAsync()
+    {
+        var container = await GetContainerAsync();
+        var query = new QueryDefinition("SELECT * FROM c WHERE c.status = @status OR c.isPublished = @isPublished")
+            .WithParameter("@status", "published")
+            .WithParameter("@isPublished", true);
+
+        var iterator = container.GetItemQueryIterator<Opportunity>(query);
+        var results = new List<Opportunity>();
+
+        while (iterator.HasMoreResults)
+        {
+            var response = await iterator.ReadNextAsync();
+            results.AddRange(response);
+        }
+
+        return results;
     }
 }
