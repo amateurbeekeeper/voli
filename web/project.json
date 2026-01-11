@@ -6,10 +6,10 @@
   "tags": [],
   "targets": {
     "dev": {
-      "executor": "nx:run-commands",
+      "executor": "@nx/next:dev",
       "options": {
-        "command": "next dev --no-turbo",
-        "cwd": "web"
+        "dev": true,
+        "turbo": false
       }
     },
     "build": {

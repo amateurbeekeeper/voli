@@ -45,9 +45,6 @@ const nextConfig = {
   experimental: {
     // Enable server actions if needed (already enabled by default in Next.js 15)
   },
-  // Disable Turbopack in dev mode to avoid SST cache errors
-  // Use Webpack instead for better stability in monorepo
-  turbo: undefined, // Disable Turbopack, use Webpack
 };
 
 const plugins = [
