@@ -468,4 +468,40 @@ Multiple Vercel configuration issues:
 
 ---
 
+---
+
+### Issue: Vercel 404 Error After Successful Build
+
+**Date:** January 11, 2026
+
+**Problem:**
+- Build succeeds on Vercel (status: ● Ready)
+- Deployment completes successfully
+- But accessing staging URL (https://voli-eta.vercel.app/) returns 404: NOT_FOUND
+- Build logs show routes are generated correctly (/, /api/hello, /components)
+- Error: `Code: NOT_FOUND, ID: syd1::bdc67-1768119727327-7679aec53372`
+
+**Root Cause:**
+- Set `framework: null` in `vercel.json` to avoid `routes-manifest.json` error
+- This disabled Vercel's automatic Next.js framework detection
+- Vercel doesn't know how to serve the Next.js app without framework detection
+- The build output exists but Vercel routing isn't configured properly
+
+**Solution:**
+- Re-enable `framework: "nextjs"` in `vercel.json`
+- The `routes-manifest.json` error was likely a false alarm or transient issue
+- Vercel needs framework detection to properly serve Next.js apps
+
+**Files Changed:**
+- `vercel.json` - Changed `framework: null` back to `framework: "nextjs"`
+
+**Key Learning:**
+- **Framework detection is critical** - Disabling it breaks routing even if build succeeds
+- Build success ≠ deployment success - The build can work but serving can fail
+- The `routes-manifest.json` error might have been transient or resolved by other fixes
+
+**Status:** Investigating - Need to test with framework re-enabled
+
+---
+
 **Last Updated:** January 11, 2026

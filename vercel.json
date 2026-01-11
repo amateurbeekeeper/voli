@@ -1,7 +1,7 @@
 {
   "buildCommand": "pnpm nx build web --skip-nx-cache",
   "outputDirectory": "web/.next",
-  "framework": null,
+  "framework": "nextjs",
   "installCommand": "pnpm install --frozen-lockfile",
   "devCommand": "pnpm nx dev web",
   "regions": ["iad1"]
