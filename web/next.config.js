@@ -12,9 +12,6 @@ const nextConfig = {
   nx: {},
   transpilePackages: ['@voli/ui'],
   // Disable Turbopack to fix path resolution issues on Vercel
-  experimental: {
-    turbo: false,
-  },
 };
 
 const plugins = [
