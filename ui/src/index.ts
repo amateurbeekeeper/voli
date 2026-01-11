@@ -19,7 +19,6 @@ export * from './lib/components/hero';
 // Navigation Components
 export * from './lib/components/accordion';
 export * from './lib/components/breadcrumb';
-export * from './lib/components/navigation-menu';
 export * from './lib/components/tabs';
 export * from './lib/components/menubar';
 
