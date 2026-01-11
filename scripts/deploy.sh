@@ -75,18 +75,60 @@ echo ""
 echo "🔍 Step 6/6: Checking Vercel build status..."
 echo ""
 
-# Check if vercel CLI is available
-if command -v vercel &> /dev/null; then
-  echo "📊 Recent Vercel deployments:"
-  vercel ls --limit 5
+# Check if vercel CLI is available (use npx as fallback)
+VERCEL_CMD="vercel"
+if ! command -v vercel &> /dev/null; then
+  VERCEL_CMD="npx vercel"
+fi
+
+echo "📊 Fetching recent Vercel deployments..."
+DEPLOYMENTS=$($VERCEL_CMD ls 2>&1 | head -12)
+echo "$DEPLOYMENTS"
+echo ""
+
+# Extract the latest deployment URL
+LATEST_URL=$(echo "$DEPLOYMENTS" | grep -oE 'https://[^ ]+\.vercel\.app' | head -1)
+
+# Check for failed builds
+if echo "$DEPLOYMENTS" | grep -q "● Error"; then
+  echo "❌ VERCEL BUILD FAILED!"
   echo ""
-  echo "💡 To view detailed logs, run: vercel logs"
-  echo "   Or check build logs: vercel inspect <deployment-url> --logs"
+  
+  if [ -n "$LATEST_URL" ]; then
+    echo "📋 Latest deployment: $LATEST_URL"
+    echo ""
+    echo "🔍 Fetching build logs (last 50 lines)..."
+    echo "----------------------------------------"
+    BUILD_LOGS=$($VERCEL_CMD inspect "$LATEST_URL" --logs 2>&1 | tail -50)
+    echo "$BUILD_LOGS"
+    echo "----------------------------------------"
+    echo ""
+    
+    # Extract key error messages
+    KEY_ERRORS=$(echo "$BUILD_LOGS" | grep -iE "(error|Error|ERROR|failed|Failed|FAILED|Cannot find|module-not-found)" | head -10)
+    if [ -n "$KEY_ERRORS" ]; then
+      echo "🔴 Key Error Messages:"
+      echo "$KEY_ERRORS"
+      echo ""
+    fi
+  fi
+  
+  echo "⚠️  ACTION REQUIRED:"
+  echo "   1. Review build logs above"
+  echo "   2. Fix errors and run deploy again"
+  echo "   3. Check Vercel dashboard: https://vercel.com/dashboard"
+  echo ""
+  exit 1
+elif echo "$DEPLOYMENTS" | grep -q "● Ready"; then
+  echo "✅ Vercel build successful!"
+  if [ -n "$LATEST_URL" ]; then
+    echo "🌐 Latest deployment: $LATEST_URL"
+  fi
 else
-  echo "⚠️  Vercel CLI not found. Install it with: npm i -g vercel"
-  echo "   Or check your Vercel dashboard: https://vercel.com/dashboard"
+  echo "⚠️  Could not determine build status"
+  echo "   Check manually: https://vercel.com/dashboard"
 fi
 
 echo ""
+echo "💡 To view full logs: $VERCEL_CMD inspect <deployment-url> --logs"
 echo "✅ Deployment workflow complete!"
-echo "🌐 Check your Vercel dashboard for build status: https://vercel.com/dashboard"
