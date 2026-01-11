@@ -2,7 +2,11 @@
 const fs = require('fs');
 const path = require('path');
 
-const routesManifestPath = path.join(__dirname, '..', 'web', '.next', 'routes-manifest.json');
+// Support both repo root (when Root Directory = web) and monorepo root contexts
+const webNextPath = process.cwd().endsWith('/web') 
+  ? path.join(process.cwd(), '.next', 'routes-manifest.json')
+  : path.join(__dirname, '..', 'web', '.next', 'routes-manifest.json');
+const routesManifestPath = webNextPath;
 const routesManifestDir = path.dirname(routesManifestPath);
 
 // Create .next directory if it doesn't exist

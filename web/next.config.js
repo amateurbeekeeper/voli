@@ -17,6 +17,12 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  // Explicitly set output to help Vercel detect App Router structure
+  output: undefined, // Use default (not standalone) for Vercel
+  // Ensure experimental features that might help with detection
+  experimental: {
+    // Enable server actions if needed (already enabled by default in Next.js 15)
+  },
 };
 
 const plugins = [
