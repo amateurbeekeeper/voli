@@ -180,6 +180,153 @@ Cannot apply unknown utility class `border-border`
 
 ---
 
+### Issue: Next.js Dev Server Freeze / Infinite Compilation with Tailwind CSS v4
+
+**Date:** January 11, 2026
+
+**Problem:**
+- Running `pnpm nx dev web` freezes the computer
+- Terminal shows "compiling..." indefinitely
+- CPU/memory usage spikes to 100%
+- Dev server never completes initialization
+
+**Root Causes Identified:**
+1. **Duplicate Tailwind Processing:**
+   - Both `web/app/global.css` and `ui/src/styles.css` contained `@tailwind` directives
+   - Importing UI library styles into web app caused Tailwind to process twice
+   - This created infinite rebuild loops
+
+2. **Excessive File Scanning:**
+   - Tailwind `content` paths included `../../ui/src/**/*.{js,ts,jsx,tsx}`
+   - This scanned ALL UI library source files, including non-component files
+   - In a monorepo, this can scan thousands of files recursively
+   - PostCSS/Tailwind processing couldn't complete due to file volume
+
+3. **Webpack Watch Performance:**
+   - Webpack was watching the entire monorepo including UI library
+   - No watch optimization for monorepo structure
+   - File system watching overwhelmed the system
+
+**Solution Applied:**
+
+1. **Removed Duplicate Tailwind Processing:**
+   - Removed `@tailwind` directives from `web/app/global.css` initially
+   - Eventually moved ALL Tailwind processing to `web/app/global.css`
+   - Stopped importing UI library's `styles.css` into web app
+   - Copied CSS variables directly into web app's `global.css`
+
+2. **Optimized Tailwind Content Scanning:**
+   ```javascript
+   // Before: Scanned entire UI library
+   content: [
+     './app/**/*.{js,ts,jsx,tsx,mdx}',
+     '../../ui/src/**/*.{js,ts,jsx,tsx}', // Too broad!
+   ]
+   
+   // After: Only scan component files
+   content: [
+     './app/**/*.{js,ts,jsx,tsx,mdx}',
+     '../../ui/src/lib/components/**/*.{js,ts,jsx,tsx}', // Specific path
+   ]
+   ```
+
+3. **Added Webpack Watch Optimizations:**
+   ```javascript
+   webpack: (config, { dev, isServer }) => {
+     if (dev) {
+       config.watchOptions = {
+         ignored: [
+           '**/node_modules/**',
+           '**/.next/**',
+           '**/dist/**',
+           '**/.nx/**',
+           '**/ui/**', // Ignore entire UI library
+         ],
+         aggregateTimeout: 500, // Reduce rebuild frequency
+         poll: false,
+       };
+       config.performance = {
+         hints: false, // Disable performance hints in dev
+       };
+     }
+     return config;
+   }
+   ```
+
+**Files Changed:**
+- `web/app/global.css` - Removed duplicate Tailwind, added CSS variables
+- `web/app/layout.tsx` - Removed UI library styles import
+- `web/tailwind.config.js` - Limited content scanning to component files only
+- `web/next.config.js` - Added webpack watch optimizations
+
+**Key Learnings:**
+- **Avoid duplicate CSS processing** - Processing Tailwind twice causes infinite loops
+- **Be specific with content paths** - Scan only what's needed, not entire directories
+- **Optimize file watching** - Monorepos need aggressive watch ignoring
+- **Separate concerns** - Web app should handle its own Tailwind processing
+- **Test performance** - Dev server hanging is a red flag for configuration issues
+
+**Status:** ✅ Fixed - Dev server now starts quickly without freezing
+
+---
+
+### Issue: Unstyled Page After Fixing Dev Server
+
+**Date:** January 11, 2026
+
+**Problem:**
+- Dev server loads successfully (no longer freezes)
+- But page appears completely unstyled - no CSS at all
+- All shadcn components render but have no styling
+- Browser dev tools show no CSS files loaded
+
+**Root Cause:**
+- Tailwind CSS v4 uses different syntax than v3
+- Was using `@tailwind base; @tailwind components; @tailwind utilities;` (v3 syntax)
+- Tailwind v4 requires `@import "tailwindcss";` instead
+- PostCSS wasn't processing the v3-style directives correctly with v4 plugin
+
+**Solution:**
+- Updated `web/app/global.css` to use Tailwind v4 syntax:
+  ```css
+  /* Before (v3 syntax) */
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+  
+  /* After (v4 syntax) */
+  @import "tailwindcss";
+  ```
+
+- Ensured PostCSS config uses `@tailwindcss/postcss` plugin (required for v4):
+  ```javascript
+  module.exports = {
+    plugins: {
+      '@tailwindcss/postcss': {}, // Required for v4
+      autoprefixer: {},
+    },
+  };
+  ```
+
+**Files Changed:**
+- `web/app/global.css` - Changed from `@tailwind` directives to `@import "tailwindcss"`
+- `web/postcss.config.js` - Ensured using `@tailwindcss/postcss` plugin
+
+**Key Learnings:**
+- **Tailwind v4 is a major breaking change** - Syntax is different from v3
+- **Always check migration guides** - Major version upgrades require config changes
+- **CSS processing order matters** - PostCSS plugin must match Tailwind version
+- **Test visual output** - Dev server starting ≠ styles working
+
+**Status:** ✅ Fixed - Page now properly styled with Tailwind CSS v4
+
+**Related Issues:**
+- Part of the same debugging session as dev server freeze issue
+- Both issues stemmed from Tailwind CSS v4 configuration problems
+- Fixing one issue (freeze) revealed another (syntax), which is common in complex config
+
+---
+
 ## TypeScript & Module Resolution
 
 ### Issue: TypeScript Build Errors for Config Files
@@ -644,3 +791,46 @@ After multiple iterations and approaches, the deployment was successfully fixed 
 ---
 
 **Last Updated:** January 11, 2026
+
+---
+
+## Development Environment Issues
+
+### Issue: Web App Styling Architecture - No Custom Templates
+
+**Date:** January 11, 2026
+
+**Decision:**
+The web app should **only import components from Storybook** and not create any custom templates or layouts itself.
+
+**Context:**
+- User wants web app to use only shadcn/ui components from Storybook library
+- Web app should NOT create custom templates, only compose existing components
+- Storybook components should handle all styling and structure
+
+**Implementation:**
+- Web app's `page.tsx` imports components from `@voli/ui` (Storybook library)
+- All layout and structure built using shadcn/ui components (Card, Badge, Button, Alert, etc.)
+- No custom templates or layouts created in web app
+- Web app is purely a consumer of Storybook components
+
+**Architecture:**
+```
+Storybook (ui/) → shadcn/ui components
+    ↓ exports to @voli/ui
+Web App (web/) → imports @voli/ui → composes dashboard
+```
+
+**Files:**
+- `web/app/page.tsx` - Only imports and uses components from `@voli/ui`
+- `web/app/layout.tsx` - Minimal layout, imports global styles
+- All styling comes from Storybook components via `@voli/ui`
+
+**Key Principle:**
+- **Web app is a consumer, not a creator** - It only uses components from Storybook
+- **Separation of concerns** - UI library handles all component definitions
+- **Reusability** - Components are defined once in Storybook, used everywhere
+
+**Status:** ✅ Implemented
+
+---
