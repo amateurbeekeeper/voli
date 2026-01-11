@@ -1,71 +1,126 @@
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Badge, Alert, AlertDescription, AlertTitle, Separator } from '@voli/ui';
+import {
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  Badge,
+  Hero,
+  Container,
+  Separator,
+} from '@voli/ui';
 import Link from 'next/link';
+import { Heart, Clock, Users, TrendingUp } from 'lucide-react';
 
 export default function Index() {
   return (
-    <div className="min-h-screen p-8">
-      <div className="max-w-4xl mx-auto space-y-8">
-        <div>
-          <h1 className="text-4xl font-bold mb-4">Welcome to Voli</h1>
-          <p className="text-xl text-gray-600 mb-6">
-            A volunteer platform connecting students with meaningful opportunities
-          </p>
-          <div className="flex gap-3 mb-4">
-            <Link href="/components">
-              <Button variant="outline">View Component Showcase</Button>
-            </Link>
-            <Badge variant="secondary">Powered by Storybook UI</Badge>
-          </div>
-        </div>
+    <>
+      {/* Hero Section */}
+      <Hero
+        title="Make a Difference Together"
+        description="Connect with meaningful volunteer opportunities that match your interests. Track your impact, build your community, and create change."
+        badge={<Badge variant="outline">Join 1,000+ Volunteers</Badge>}
+        actions={
+          <>
+            <Button size="lg" asChild>
+              <Link href="/opportunities">Browse Opportunities</Link>
+            </Button>
+            <Button size="lg" variant="outline" asChild>
+              <Link href="/about">Learn More</Link>
+            </Button>
+          </>
+        }
+        className="bg-gradient-to-b from-background to-muted/20"
+      />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Browse Opportunities</CardTitle>
-              <CardDescription>
-                Find volunteer opportunities that match your interests
+      {/* Features Section */}
+      <section className="py-24 sm:py-32">
+        <Container>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+              Everything you need to volunteer
+            </h2>
+            <p className="mt-4 text-lg text-muted-foreground">
+              Discover opportunities, track your hours, and measure your impact all in one place.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            <Card className="border-2 hover:border-primary/50 transition-colors">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                  <Heart className="w-6 h-6 text-primary" />
+                </div>
+                <CardTitle>Find Opportunities</CardTitle>
+                <CardDescription>
+                  Browse hundreds of volunteer opportunities tailored to your interests and skills.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="border-2 hover:border-primary/50 transition-colors">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                  <Clock className="w-6 h-6 text-primary" />
+                </div>
+                <CardTitle>Track Hours</CardTitle>
+                <CardDescription>
+                  Log your volunteer hours and maintain a record of all your community service.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="border-2 hover:border-primary/50 transition-colors">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                  <Users className="w-6 h-6 text-primary" />
+                </div>
+                <CardTitle>Build Community</CardTitle>
+                <CardDescription>
+                  Connect with like-minded volunteers and organizations in your area.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="border-2 hover:border-primary/50 transition-colors">
+              <CardHeader>
+                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                  <TrendingUp className="w-6 h-6 text-primary" />
+                </div>
+                <CardTitle>Measure Impact</CardTitle>
+                <CardDescription>
+                  See the difference you're making with detailed analytics and impact reports.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </div>
+        </Container>
+      </section>
+
+      <Separator />
+
+      {/* CTA Section */}
+      <section className="py-24 sm:py-32">
+        <Container size="md">
+          <Card className="border-2 bg-gradient-to-br from-primary/5 to-primary/10">
+            <CardHeader className="text-center">
+              <CardTitle className="text-3xl">Ready to Get Started?</CardTitle>
+              <CardDescription className="text-lg">
+                Join thousands of volunteers making a difference in their communities.
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <Button>Explore</Button>
+            <CardContent className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" asChild>
+                <Link href="/signup">Create Account</Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild>
+                <Link href="/components">View Components</Link>
+              </Button>
             </CardContent>
           </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Log Hours</CardTitle>
-              <CardDescription>
-                Track your volunteer hours and impact
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button variant="secondary">Log Hours</Button>
-            </CardContent>
-          </Card>
-          </div>
-
-        <div className="mt-8">
-          <h2 className="text-2xl font-semibold mb-4">Status Badges</h2>
-          <div className="flex gap-2 flex-wrap">
-            <Badge>Published</Badge>
-            <Badge variant="secondary">Draft</Badge>
-            <Badge variant="success">Approved</Badge>
-            <Badge variant="warning">Pending</Badge>
-            <Badge variant="destructive">Rejected</Badge>
-          </div>
-        </div>
-
-        <Separator className="my-8" />
-
-        <div className="space-y-4">
-          <Alert>
-            <AlertTitle>Welcome to Voli!</AlertTitle>
-            <AlertDescription>
-              Discover volunteer opportunities that match your interests and make a difference in your community.
-            </AlertDescription>
-          </Alert>
-        </div>
-      </div>
-    </div>
+        </Container>
+      </section>
+    </>
   );
 }

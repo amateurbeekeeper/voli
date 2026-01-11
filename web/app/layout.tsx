@@ -1,5 +1,6 @@
 import './global.css';
 import '../../ui/src/styles.css';
+import { AppHeader } from './components/header';
 
 export const metadata = {
   title: 'Voli - Volunteer Platform',
@@ -13,7 +14,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="min-h-screen bg-background">
+        <AppHeader />
+        {children}
+      </body>
     </html>
   );
 }

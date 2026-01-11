@@ -13,12 +13,13 @@ import {
   AlertDescription,
   AlertTitle,
   Separator,
+  Container,
 } from '@voli/ui';
 
 export default function ComponentsPage() {
   return (
-    <div className="min-h-screen p-8 bg-gray-50">
-      <div className="max-w-6xl mx-auto space-y-12">
+    <div className="min-h-screen bg-background py-12">
+      <Container size="xl" className="space-y-12">
         <div>
           <h1 className="text-4xl font-bold mb-2">Component Showcase</h1>
           <p className="text-xl text-gray-600">
@@ -288,7 +289,7 @@ export default function ComponentsPage() {
             </CardContent>
           </Card>
         </section>
-      </div>
+      </Container>
     </div>
   );
 }
