@@ -502,6 +502,23 @@ Multiple Vercel configuration issues:
 
 **Status:** Investigating - Need to test with framework re-enabled
 
+**Update - Dashboard Configuration Issue Found:**
+
+After reviewing Vercel dashboard settings, the root cause was identified:
+- **Framework** in Production Overrides was set to **"Other"** instead of **"Next.js"**
+- This explains why Vercel couldn't find `routes-manifest.json` - it wasn't treating it as a Next.js app
+- Dashboard settings were overriding `vercel.json` configuration
+- Multiple other settings also needed updates (Node.js version, Build Command, Output Directory)
+
+**Files Created:**
+- `VERCEL_DASHBOARD_FIX.md` - Detailed fix instructions for dashboard configuration
+
+**Key Learning:**
+- **Dashboard settings override `vercel.json`** when both are present
+- Always check both Production Overrides AND Project Settings sections
+- Framework setting is critical - must be "Next.js" not "Other" for proper detection
+- The "Configuration Settings differ" warning banner indicates mismatches
+
 ---
 
 **Last Updated:** January 11, 2026
