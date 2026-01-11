@@ -1,9 +1,8 @@
 {
-  "rootDirectory": "web",
-  "buildCommand": "pnpm next build",
-  "outputDirectory": ".next",
+  "buildCommand": "cd .. && pnpm install --frozen-lockfile && cd web && pnpm next build",
+  "outputDirectory": "web/.next",
   "framework": "nextjs",
-  "installCommand": "cd .. && pnpm install --frozen-lockfile",
+  "installCommand": "pnpm install --frozen-lockfile",
   "devCommand": "cd web && next dev --port $PORT",
   "regions": ["iad1"]
 }
