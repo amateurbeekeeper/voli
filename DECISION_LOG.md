@@ -521,4 +521,57 @@ After reviewing Vercel dashboard settings, the root cause was identified:
 
 ---
 
+---
+
+### Issue: Vercel "No Serverless Pages Were Built" Error
+
+**Date:** January 11, 2026
+
+**Problem:**
+- Build succeeds successfully ("NX Successfully ran target build")
+- Routes are generated correctly (/, /api/hello, /components)
+- routes-manifest.json is created successfully
+- But Vercel reports: "Error: No serverless pages were built"
+- This happens AFTER the build completes successfully
+
+**Root Cause:**
+Based on external guidance and investigation:
+- Vercel detects pnpm 10.x automatically but version mismatches can cause workspace resolution issues
+- Using `npx nx` instead of `pnpm nx` can cause inconsistent behavior
+- Monorepo context might not be properly detected by Vercel
+- Next.js 15 App Router structure might not be recognized correctly
+
+**Solution Applied:**
+1. **Pin pnpm version** in `package.json`:
+   ```json
+   "packageManager": "pnpm@10.27.0"
+   ```
+   - Ensures consistent pnpm behavior between local and Vercel
+   - Matches what Vercel auto-detects (10.x)
+
+2. **Use `pnpm nx` instead of `npx nx`**:
+   - Changed from `npx nx build web --prod` to `pnpm nx build web --prod`
+   - Ensures Nx runs with the same package manager context
+   - More consistent with monorepo workspace resolution
+
+3. **Keep `outputDirectory: "web/.next"`**:
+   - Per Nx documentation, this should point to `.next` folder
+   - Required for monorepo deployments
+
+4. **Root Directory**: Left empty (monorepo root) - already correct
+
+**Files Changed:**
+- `package.json` - Added `packageManager: "pnpm@10.27.0"`
+- `vercel.json` - Changed build command from `npx nx` to `pnpm nx`
+
+**Key Learnings:**
+- **Package manager consistency matters** - Pin versions to avoid workspace resolution differences
+- **Use pnpm directly** - `pnpm nx` is more reliable than `npx nx` in monorepos
+- **Build succeeds ≠ Deployment succeeds** - The build can work but Vercel post-processing can fail
+- **Monorepo detection is critical** - Vercel needs to understand the workspace structure
+
+**Status:** Testing - Deployment building with pinned pnpm version
+
+---
+
 **Last Updated:** January 11, 2026
