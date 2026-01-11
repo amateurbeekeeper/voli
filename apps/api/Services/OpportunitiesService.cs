@@ -37,7 +37,9 @@ public class OpportunitiesService : IOpportunitiesService
         _logger.LogDebug("OpportunitiesService.GetOpportunityByIdAsync - Starting for ID: {Id}", id);
         try
         {
-            var allOpportunities = await _repository.GetAllAsync();
+            // Note: This is a limitation - we'd need organisationId as partition key
+            // For now, using GetAllPublishedAsync and filtering
+            var allOpportunities = await _repository.GetAllPublishedAsync();
             var opportunity = allOpportunities.FirstOrDefault(o => o.Id == id);
             
             if (opportunity == null)
