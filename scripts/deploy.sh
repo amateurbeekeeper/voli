@@ -44,6 +44,62 @@ if [ -z "$(git status --porcelain)" ]; then
   echo "⚠️  No changes to commit"
 else
   git add -A
+  
+  # Generate descriptive commit message if default is used
+  if [ "$COMMIT_MSG" = "chore(vercel): deploy changes" ]; then
+    # Analyze changes to create better commit message
+    CHANGED_FILES=$(git diff --cached --name-only)
+    CHANGED_COUNT=$(echo "$CHANGED_FILES" | wc -l | xargs)
+    
+    # Categorize changes
+    API_CHANGES=$(echo "$CHANGED_FILES" | grep -E "^apps/api/" | wc -l | xargs)
+    WEB_CHANGES=$(echo "$CHANGED_FILES" | grep -E "^web/" | wc -l | xargs)
+    UI_CHANGES=$(echo "$CHANGED_FILES" | grep -E "^ui/" | wc -l | xargs)
+    DOCS_CHANGES=$(echo "$CHANGED_FILES" | grep -E "^docs/" | wc -l | xargs)
+    CONFIG_CHANGES=$(echo "$CHANGED_FILES" | grep -E "\.(json|js|ts|config|yml|yaml)$" | grep -vE "^apps/|^web/|^ui/" | wc -l | xargs)
+    
+    # Build scope list
+    SCOPES=()
+    if [ "$API_CHANGES" -gt 0 ]; then SCOPES+=("api"); fi
+    if [ "$WEB_CHANGES" -gt 0 ]; then SCOPES+=("web"); fi
+    if [ "$UI_CHANGES" -gt 0 ]; then SCOPES+=("ui"); fi
+    if [ "$DOCS_CHANGES" -gt 0 ]; then SCOPES+=("docs"); fi
+    if [ "$CONFIG_CHANGES" -gt 0 ]; then SCOPES+=("config"); fi
+    
+    # Build scope string
+    if [ ${#SCOPES[@]} -eq 0 ]; then
+      SCOPE_STR="vercel"
+    else
+      SCOPE_STR=$(IFS=,; echo "${SCOPES[*]}")
+    fi
+    
+    # Create descriptive subject based on what changed
+    if [ "$CHANGED_COUNT" -eq 1 ]; then
+      MAIN_FILE=$(echo "$CHANGED_FILES" | head -1)
+      FILE_NAME=$(basename "$MAIN_FILE" | sed 's/\.[^.]*$//')
+      SUBJECT="deploy $FILE_NAME changes"
+    elif [ "$CHANGED_COUNT" -le 5 ]; then
+      # For small number of files, be more specific
+      if [ "$API_CHANGES" -gt 0 ] && [ "$WEB_CHANGES" -eq 0 ] && [ "$UI_CHANGES" -eq 0 ]; then
+        SUBJECT="deploy API changes"
+      elif [ "$WEB_CHANGES" -gt 0 ] && [ "$API_CHANGES" -eq 0 ] && [ "$UI_CHANGES" -eq 0 ]; then
+        SUBJECT="deploy web changes"
+      elif [ "$DOCS_CHANGES" -gt 0 ] && [ "$API_CHANGES" -eq 0 ] && [ "$WEB_CHANGES" -eq 0 ] && [ "$UI_CHANGES" -eq 0 ]; then
+        SUBJECT="deploy documentation updates"
+      else
+        SUBJECT="deploy changes ($CHANGED_COUNT files)"
+      fi
+    else
+      # For many files, summarize by scope
+      SUBJECT="deploy changes ($CHANGED_COUNT files)"
+    fi
+    
+    COMMIT_MSG="chore($SCOPE_STR): $SUBJECT"
+    
+    echo "   📝 Generated commit message: $COMMIT_MSG"
+    echo "   📊 Changes: $CHANGED_COUNT files (api:$API_CHANGES web:$WEB_CHANGES ui:$UI_CHANGES docs:$DOCS_CHANGES)"
+  fi
+  
   git commit -m "$COMMIT_MSG"
   echo "✅ Changes committed"
 fi
