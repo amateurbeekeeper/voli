@@ -1,8 +1,9 @@
 {
-  "buildCommand": "cd .. && pnpm install --frozen-lockfile && pnpm nx build web --skip-nx-cache && cd web && node ../scripts/generate-routes-manifest.js",
+  "rootDirectory": "web",
+  "buildCommand": "cd .. && pnpm install --frozen-lockfile && cd web && next build",
   "outputDirectory": ".next",
   "framework": "nextjs",
-  "installCommand": "pnpm install --frozen-lockfile",
+  "installCommand": "cd .. && pnpm install --frozen-lockfile",
   "devCommand": "cd web && next dev --port $PORT",
   "regions": ["iad1"]
 }
