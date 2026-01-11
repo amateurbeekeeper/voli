@@ -1,8 +1,14 @@
 {
   "Logging": {
     "LogLevel": {
-      "Default": "Information",
-      "Microsoft.AspNetCore": "Warning"
+      "Default": "Debug",
+      "Microsoft.AspNetCore": "Information",
+      "Microsoft.AspNetCore.Http": "Information",
+      "Microsoft.AspNetCore.Routing": "Debug",
+      "Voli.Api": "Debug",
+      "Voli.Api.Controllers": "Debug",
+      "Voli.Api.Services": "Debug",
+      "Voli.Api.Repositories": "Debug"
     }
   },
   "AllowedHosts": "*",
