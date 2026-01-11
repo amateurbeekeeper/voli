@@ -2,7 +2,7 @@
 
 This document tracks all significant technical decisions, issues encountered, and solutions implemented during the development of the Voli volunteer platform, ordered chronologically from oldest to newest.
 
-**Last Updated:** January 11, 2026
+**Last Updated:** January 12, 2026
 
 ---
 
@@ -11,6 +11,7 @@ This document tracks all significant technical decisions, issues encountered, an
 1. [Project Initiation](#project-initiation)
 2. [January 2026](#january-2026)
 3. [January 11, 2026](#january-11-2026)
+4. [January 12, 2026](#january-12-2026)
 
 ---
 
@@ -377,6 +378,10 @@ Multiple Vercel configuration issues:
 **Created:**
 - `CONTRIBUTING.md` - Detailed commit message guidelines (updated with enforcement)
 - `COMMIT_MESSAGE_SETUP.md` - Setup guide for commit enforcement
+
+**Note (January 12, 2026):**
+- Commit message format enforcement is documented in "Decision: Commit Message Standardization and Enforcement" (January 11, 2026)
+- Commit workflow/hygiene guidelines are documented in "Decision: Commit Workflow and Hygiene Guidelines" (January 12, 2026)
 
 **Key Learning:**
 - Good commit messages are a form of documentation
@@ -910,9 +915,13 @@ After multiple iterations and approaches, the deployment was successfully fixed 
 ✅ Decision to skip Docker documented
 ✅ Clear criteria for when to reconsider
 
+**Additional Notes (January 12, 2026):**
+- **Vercel/Local Build Status Discrepancies:** Experiencing frustration with Vercel and local build statuses not aligning consistently. This has led to considering Docker for the API to ensure parity between environments. However, for now, we're holding off on Docker and will continue with direct .NET deployment to Azure Web App. If build status discrepancies become a bigger issue or we need better environment consistency, Docker may be reconsidered.
+
 **Key Learning:**
 - **Right tool for the job** - Docker is powerful but adds complexity that may not be needed
 - **Start simple** - Can always add Docker later if requirements change
+- **Environment parity** - Build status discrepancies between local and cloud can be frustrating, but Docker isn't always the answer
 
 ---
 
