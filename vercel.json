@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd .. && pnpm install --frozen-lockfile && pnpm nx build web --skip-nx-cache",
+  "buildCommand": "cd .. && pnpm install --frozen-lockfile && pnpm nx build web --skip-nx-cache && cd web && node ../../scripts/generate-routes-manifest.js",
   "outputDirectory": ".next",
   "framework": "nextjs",
   "installCommand": "cd .. && pnpm install --frozen-lockfile",
