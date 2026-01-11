@@ -1,6 +1,8 @@
 import './global.css';
-import '../../ui/src/styles.css';
 import { AppHeader } from './components/header';
+
+// Import UI library styles for CSS variables and Tailwind utilities
+import '../../ui/src/styles.css';
 
 export const metadata = {
   title: 'Voli - Volunteer Platform',
