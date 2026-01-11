@@ -18,79 +18,80 @@ export default function Index() {
     <>
       {/* Hero Section */}
       <Hero
-        title="Make a Difference Together"
-        description="Connect with meaningful volunteer opportunities that match your interests. Track your impact, build your community, and create change."
-        badge={<Badge variant="outline">Join 1,000+ Volunteers</Badge>}
+        title="Volunteer Management Made Simple"
+        description="The all-in-one platform for managing volunteers, tracking hours, and measuring impact. Trusted by organizations worldwide."
+        badge={<Badge variant="outline" className="bg-primary/10 text-primary border-primary/20">Join 10,000+ Organizations</Badge>}
         actions={
           <>
-            <Button size="lg" asChild>
-              <Link href="/opportunities">Browse Opportunities</Link>
+            <Button size="lg" className="shadow-lg shadow-primary/25" asChild>
+              <Link href="/signup">Start Free Trial</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <Link href="/about">Learn More</Link>
+              <Link href="/demo">Watch Demo</Link>
             </Button>
           </>
         }
-        className="bg-gradient-to-b from-background to-muted/20"
+        className="bg-gradient-to-b from-background via-primary/5 to-background"
       />
 
       {/* Features Section */}
       <section className="py-24 sm:py-32">
         <Container>
           <div className="text-center mb-16">
+            <Badge variant="secondary" className="mb-4">Features</Badge>
             <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Everything you need to volunteer
+              Everything you need to manage volunteers
             </h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Discover opportunities, track your hours, and measure your impact all in one place.
+            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+              Powerful tools to recruit, manage, and engage volunteers. All in one beautiful platform.
             </p>
           </div>
 
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            <Card className="border-2 hover:border-primary/50 transition-colors">
+            <Card className="border-2 hover:border-primary/50 hover:shadow-lg transition-all group">
               <CardHeader>
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Heart className="w-6 h-6 text-primary" />
                 </div>
-                <CardTitle>Find Opportunities</CardTitle>
+                <CardTitle>Recruit Volunteers</CardTitle>
                 <CardDescription>
-                  Browse hundreds of volunteer opportunities tailored to your interests and skills.
+                  Post opportunities and attract qualified volunteers with our powerful recruitment tools.
                 </CardDescription>
               </CardHeader>
             </Card>
 
-            <Card className="border-2 hover:border-primary/50 transition-colors">
+            <Card className="border-2 hover:border-primary/50 hover:shadow-lg transition-all group">
               <CardHeader>
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Clock className="w-6 h-6 text-primary" />
                 </div>
                 <CardTitle>Track Hours</CardTitle>
                 <CardDescription>
-                  Log your volunteer hours and maintain a record of all your community service.
+                  Automated time tracking with real-time reporting and verification for accurate records.
                 </CardDescription>
               </CardHeader>
             </Card>
 
-            <Card className="border-2 hover:border-primary/50 transition-colors">
+            <Card className="border-2 hover:border-primary/50 hover:shadow-lg transition-all group">
               <CardHeader>
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Users className="w-6 h-6 text-primary" />
                 </div>
-                <CardTitle>Build Community</CardTitle>
+                <CardTitle>Engage Volunteers</CardTitle>
                 <CardDescription>
-                  Connect with like-minded volunteers and organizations in your area.
+                  Build a thriving community with messaging, events, and recognition features.
                 </CardDescription>
               </CardHeader>
             </Card>
 
-            <Card className="border-2 hover:border-primary/50 transition-colors">
+            <Card className="border-2 hover:border-primary/50 hover:shadow-lg transition-all group">
               <CardHeader>
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <TrendingUp className="w-6 h-6 text-primary" />
                 </div>
-                <CardTitle>Measure Impact</CardTitle>
+                <CardTitle>Analytics & Reports</CardTitle>
                 <CardDescription>
-                  See the difference you're making with detailed analytics and impact reports.
+                  Comprehensive dashboards and custom reports to measure and showcase your impact.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -103,19 +104,21 @@ export default function Index() {
       {/* CTA Section */}
       <section className="py-24 sm:py-32">
         <Container size="md">
-          <Card className="border-2 bg-gradient-to-br from-primary/5 to-primary/10">
+          <Card className="border-2 bg-gradient-to-br from-primary/10 via-primary/5 to-background shadow-xl">
             <CardHeader className="text-center">
-              <CardTitle className="text-3xl">Ready to Get Started?</CardTitle>
-              <CardDescription className="text-lg">
-                Join thousands of volunteers making a difference in their communities.
+              <CardTitle className="text-3xl bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+                Ready to transform your volunteer program?
+              </CardTitle>
+              <CardDescription className="text-lg mt-2">
+                Join thousands of organizations using Voli to manage their volunteers.
               </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" asChild>
-                <Link href="/signup">Create Account</Link>
+              <Button size="lg" className="shadow-lg shadow-primary/25" asChild>
+                <Link href="/signup">Start Free Trial</Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link href="/components">View Components</Link>
+                <Link href="/contact">Schedule Demo</Link>
               </Button>
             </CardContent>
           </Card>
