@@ -1,33 +1,18 @@
-using Microsoft.Azure.Cosmos;
+using Microsoft.Extensions.Logging;
 using Voli.Api.Data;
-using Models = Voli.Api.Models;
+using Voli.Api.Models;
 
 namespace Voli.Api.Repositories;
 
-public class UsersRepository : BaseRepository<Models.User>, IUsersRepository
+public class UsersRepository : BaseRepository<User>, IUsersRepository
 {
-    public UsersRepository(CosmosClientWrapper cosmosClientWrapper)
-        : base(cosmosClientWrapper, "users", "/id")
+    public UsersRepository(CosmosClientWrapper cosmosClientWrapper, ILogger<UsersRepository> logger)
+        : base(cosmosClientWrapper, "users", "/id", logger)
     {
     }
 
-    protected override string GetPartitionKeyValue(Models.User item) => item.Id;
-
-    public async Task<Models.User?> GetByEmailAsync(string email)
+    protected override string GetPartitionKeyValue(User item)
     {
-        var container = await GetContainerAsync();
-        var query = new QueryDefinition("SELECT * FROM c WHERE c.email = @email")
-            .WithParameter("@email", email);
-
-        var iterator = container.GetItemQueryIterator<Models.User>(query);
-        
-        if (iterator.HasMoreResults)
-        {
-            var response = await iterator.ReadNextAsync();
-            return response.FirstOrDefault();
-        }
-
-        return null;
+        return item.Id;
     }
 }
-
