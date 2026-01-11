@@ -19,7 +19,10 @@
     "seed:dev": "curl -X POST http://localhost:5000/api/seed",
     "seed:staging": "curl -X POST http://staging-api-url/api/seed",
     "vercel:status": "bash scripts/check-vercel-status.sh",
-    "vercel:logs": "npx vercel ls | head -5 && echo '' && echo '💡 Run: npx vercel inspect <deployment-url> --logs'"
+    "vercel:logs": "npx vercel ls | head -5 && echo '' && echo '💡 Run: npx vercel inspect <deployment-url> --logs'",
+    "storybook": "nx storybook ui",
+    "storybook:build": "nx build-storybook ui",
+    "storybook:static": "nx static-storybook ui"
   },
   "private": true,
   "packageManager": "pnpm@10.27.0",

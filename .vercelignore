@@ -6,7 +6,5 @@ tools
 *.md
 !README.md
 nx.json
-# Don't ignore tsconfig.base.json - it's needed for TypeScript config resolution
-# tsconfig.base.json
-
-
+# Storybook static build (deploy separately if needed)
+ui/storybook-static

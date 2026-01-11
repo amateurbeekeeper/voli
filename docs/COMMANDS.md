@@ -101,12 +101,30 @@ pnpm nx e2e e2e
 pnpm test:watch
 ```
 
+## Storybook
+
+```bash
+# Start Storybook locally (interactive mode)
+pnpm storybook
+# or
+pnpm nx storybook ui
+
+# Build Storybook static site
+pnpm storybook:build
+# or
+pnpm nx build-storybook ui
+
+# Serve static Storybook build
+pnpm storybook:static
+# or
+pnpm nx static-storybook ui
+```
+
+**Note:** Storybook is currently only available locally. See [STORYBOOK_DEPLOYMENT.md](./STORYBOOK_DEPLOYMENT.md) for deployment options.
+
 ## Other Commands
 
 ```bash
-# View Storybook
-pnpm nx storybook ui
-
 # Seed dev database
 pnpm seed:dev
 
