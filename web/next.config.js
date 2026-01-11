@@ -11,6 +11,10 @@ const nextConfig = {
   // See: https://nx.dev/recipes/next/next-config-setup
   nx: {},
   transpilePackages: ['@voli/ui'],
+  // Disable Turbopack to fix path resolution issues on Vercel
+  experimental: {
+    turbo: false,
+  },
 };
 
 const plugins = [
