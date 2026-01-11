@@ -12,35 +12,35 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo 
-    { 
-        Title = "Voli API", 
-        Version = "v1",
-        Description = "Voli Volunteer Platform API - Connect students with volunteer opportunities",
-        Contact = new OpenApiContact
-        {
-            Name = "Voli API Support"
-        }
-    });
-    
-    // Include XML comments if available
-    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    if (File.Exists(xmlPath))
+  c.SwaggerDoc("v1", new OpenApiInfo
+  {
+    Title = "Voli API",
+    Version = "v1",
+    Description = "Voli Volunteer Platform API - Connect students with volunteer opportunities",
+    Contact = new OpenApiContact
     {
-        c.IncludeXmlComments(xmlPath);
+      Name = "Voli API Support"
     }
-    
-    // Bearer token authentication
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
-    });
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+  });
+
+  // Include XML comments if available
+  var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+  var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+  if (File.Exists(xmlPath))
+  {
+    c.IncludeXmlComments(xmlPath);
+  }
+
+  // Bearer token authentication
+  c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+  {
+    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+    Name = "Authorization",
+    In = ParameterLocation.Header,
+    Type = SecuritySchemeType.ApiKey,
+    Scheme = "Bearer"
+  });
+  c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
             new OpenApiSecurityScheme
@@ -63,73 +63,73 @@ var cosmosDatabaseName = builder.Configuration["CosmosDb:DatabaseName"] ?? "voli
 
 if (!string.IsNullOrEmpty(cosmosEndpoint) && !string.IsNullOrEmpty(cosmosKey))
 {
-    builder.Services.AddSingleton<CosmosClientWrapper>(sp =>
-        new CosmosClientWrapper(cosmosEndpoint, cosmosKey, cosmosDatabaseName));
+  builder.Services.AddSingleton<CosmosClientWrapper>(sp =>
+      new CosmosClientWrapper(cosmosEndpoint, cosmosKey, cosmosDatabaseName));
 
-    // Register repositories
-    builder.Services.AddScoped<IOpportunitiesRepository, OpportunitiesRepository>();
-    builder.Services.AddScoped<IApplicationsRepository, ApplicationsRepository>();
-    builder.Services.AddScoped<IHoursLogsRepository, HoursLogsRepository>();
-    builder.Services.AddScoped<IOrganisationsRepository, OrganisationsRepository>();
-    builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+  // Register repositories
+  builder.Services.AddScoped<IOpportunitiesRepository, OpportunitiesRepository>();
+  builder.Services.AddScoped<IApplicationsRepository, ApplicationsRepository>();
+  builder.Services.AddScoped<IHoursLogsRepository, HoursLogsRepository>();
+  builder.Services.AddScoped<IOrganisationsRepository, OrganisationsRepository>();
+  builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 
-    // Register services
-    builder.Services.AddScoped<IOpportunitiesService, OpportunitiesService>();
-    builder.Services.AddScoped<IApplicationsService, ApplicationsService>();
-    builder.Services.AddScoped<IHoursLogsService, HoursLogsService>();
-    builder.Services.AddScoped<SeedService>();
+  // Register services
+  builder.Services.AddScoped<IOpportunitiesService, OpportunitiesService>();
+  builder.Services.AddScoped<IApplicationsService, ApplicationsService>();
+  builder.Services.AddScoped<IHoursLogsService, HoursLogsService>();
+  builder.Services.AddScoped<SeedService>();
 }
 
 // JWT Authentication (placeholder - configure based on auth provider)
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+  options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+  options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
 .AddJwtBearer(options =>
 {
-    // Configure based on auth provider (Auth0, Clerk, Entra ID B2C)
-    // This is a placeholder - update with actual issuer and audience
-    var authority = builder.Configuration["Auth:Authority"];
-    var audience = builder.Configuration["Auth:Audience"];
+  // Configure based on auth provider (Auth0, Clerk, Entra ID B2C)
+  // This is a placeholder - update with actual issuer and audience
+  var authority = builder.Configuration["Auth:Authority"];
+  var audience = builder.Configuration["Auth:Audience"];
 
-    if (!string.IsNullOrEmpty(authority))
+  if (!string.IsNullOrEmpty(authority))
+  {
+    options.Authority = authority;
+    options.Audience = audience;
+    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
     {
-        options.Authority = authority;
-        options.Audience = audience;
-        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true
-        };
-    }
+      ValidateIssuer = true,
+      ValidateAudience = true,
+      ValidateLifetime = true,
+      ValidateIssuerSigningKey = true
+    };
+  }
 });
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("Student", policy => policy.RequireClaim("role", "student", "admin"));
-    options.AddPolicy("Organisation", policy => policy.RequireClaim("role", "organisation", "admin"));
-    options.AddPolicy("Admin", policy => policy.RequireClaim("role", "admin"));
+  options.AddPolicy("Student", policy => policy.RequireClaim("role", "student", "admin"));
+  options.AddPolicy("Organisation", policy => policy.RequireClaim("role", "organisation", "admin"));
+  options.AddPolicy("Admin", policy => policy.RequireClaim("role", "admin"));
 });
 
 // Health checks
 builder.Services.AddHealthChecks();
 
 // CORS configuration
-var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() 
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
     ?? new[] { "http://localhost:3000", "https://localhost:3000" };
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policy =>
-    {
-        policy.WithOrigins(allowedOrigins)
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials();
-    });
+  options.AddDefaultPolicy(policy =>
+  {
+    policy.WithOrigins(allowedOrigins)
+          .AllowAnyMethod()
+          .AllowAnyHeader()
+          .AllowCredentials();
+  });
 });
 
 var app = builder.Build();
@@ -137,15 +137,15 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Voli API v1");
-        c.RoutePrefix = "swagger"; // Swagger UI at /swagger
-        c.DisplayRequestDuration();
-        c.EnableDeepLinking();
-        c.EnableFilter();
-    });
+  app.UseSwagger();
+  app.UseSwaggerUI(c =>
+  {
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Voli API v1");
+    c.RoutePrefix = "swagger"; // Swagger UI at /swagger
+    c.DisplayRequestDuration();
+    c.EnableDeepLinking();
+    c.EnableFilter();
+  });
 }
 
 app.UseHttpsRedirection();

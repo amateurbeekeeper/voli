@@ -4,6 +4,6 @@ namespace Voli.Api.Repositories;
 
 public interface IUsersRepository : IRepository<User>
 {
-    Task<User?> GetByEmailAsync(string email);
+  Task<User?> GetByEmailAsync(string email);
 }
 

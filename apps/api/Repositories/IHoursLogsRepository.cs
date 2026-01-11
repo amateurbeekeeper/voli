@@ -4,7 +4,7 @@ namespace Voli.Api.Repositories;
 
 public interface IHoursLogsRepository : IRepository<HoursLog>
 {
-    Task<IEnumerable<HoursLog>> GetByOrganisationIdAsync(string organisationId);
-    Task<IEnumerable<HoursLog>> GetByStudentUserIdAsync(string studentUserId);
+  Task<IEnumerable<HoursLog>> GetByOrganisationIdAsync(string organisationId);
+  Task<IEnumerable<HoursLog>> GetByStudentUserIdAsync(string studentUserId);
 }
 
