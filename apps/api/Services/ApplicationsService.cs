@@ -27,9 +27,8 @@ public class ApplicationsService : IApplicationsService
                 Id = Guid.NewGuid().ToString(),
                 StudentUserId = studentUserId,
                 OpportunityId = dto.OpportunityId,
-                Status = "pending",
-                CoverLetter = dto.CoverLetter,
-                Availability = dto.Availability
+                Status = "submitted",
+                Message = dto.Message
             };
 
             var created = await _repository.CreateAsync(application);

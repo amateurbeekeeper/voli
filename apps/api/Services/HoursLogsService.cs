@@ -18,8 +18,8 @@ public class HoursLogsService : IHoursLogsService
 
     public async Task<HoursLog> CreateHoursLogAsync(string studentUserId, CreateHoursLogDto dto)
     {
-        _logger.LogInformation("HoursLogsService.CreateHoursLogAsync - Creating hours log for student: {StudentUserId}, date: {Date}, hours: {Hours}", 
-            studentUserId, dto.Date, dto.Hours);
+        _logger.LogInformation("HoursLogsService.CreateHoursLogAsync - Creating hours log for student: {StudentUserId}, date: {Date}, minutes: {Minutes}", 
+            studentUserId, dto.Date, dto.Minutes);
         try
         {
             var hoursLog = new HoursLog
@@ -29,14 +29,14 @@ public class HoursLogsService : IHoursLogsService
                 OpportunityId = dto.OpportunityId,
                 OrganisationId = dto.OrganisationId,
                 Date = dto.Date,
-                Hours = dto.Hours,
-                Description = dto.Description,
+                Minutes = dto.Minutes,
+                Notes = dto.Notes,
                 Status = "pending"
             };
 
             var created = await _repository.CreateAsync(hoursLog);
-            _logger.LogInformation("HoursLogsService.CreateHoursLogAsync - Created hours log: {Id}, Student: {StudentUserId}, Date: {Date}, Hours: {Hours}", 
-                created.Id, studentUserId, dto.Date, dto.Hours);
+            _logger.LogInformation("HoursLogsService.CreateHoursLogAsync - Created hours log: {Id}, Student: {StudentUserId}, Date: {Date}, Minutes: {Minutes}", 
+                created.Id, studentUserId, dto.Date, dto.Minutes);
             return created;
         }
         catch (Exception ex)
@@ -82,7 +82,6 @@ public class HoursLogsService : IHoursLogsService
             _logger.LogDebug("HoursLogsService.ApproveHoursLogAsync - Status change: {OldStatus} -> approved", hoursLog.Status);
             hoursLog.Status = "approved";
             hoursLog.ReviewedByUserId = reviewedByUserId;
-            hoursLog.ReviewedAt = DateTime.UtcNow;
 
             var updated = await _repository.UpdateAsync(hoursLog);
             _logger.LogInformation("HoursLogsService.ApproveHoursLogAsync - Approved hours log: {Id}, Organisation: {OrganisationId}, ReviewedBy: {ReviewedByUserId}", 
@@ -114,7 +113,6 @@ public class HoursLogsService : IHoursLogsService
             _logger.LogDebug("HoursLogsService.RejectHoursLogAsync - Status change: {OldStatus} -> rejected", hoursLog.Status);
             hoursLog.Status = "rejected";
             hoursLog.ReviewedByUserId = reviewedByUserId;
-            hoursLog.ReviewedAt = DateTime.UtcNow;
 
             var updated = await _repository.UpdateAsync(hoursLog);
             _logger.LogInformation("HoursLogsService.RejectHoursLogAsync - Rejected hours log: {Id}, Organisation: {OrganisationId}, ReviewedBy: {ReviewedByUserId}", 

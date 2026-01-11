@@ -25,9 +25,8 @@ public class OpportunitiesRepository : BaseRepository<Opportunity>, IOpportuniti
     public async Task<IEnumerable<Opportunity>> GetAllPublishedAsync()
     {
         var container = await GetContainerAsync();
-        var query = new QueryDefinition("SELECT * FROM c WHERE c.status = @status OR c.isPublished = @isPublished")
-            .WithParameter("@status", "published")
-            .WithParameter("@isPublished", true);
+        var query = new QueryDefinition("SELECT * FROM c WHERE c.status = @status")
+            .WithParameter("@status", "published");
 
         var iterator = container.GetItemQueryIterator<Opportunity>(query);
         var results = new List<Opportunity>();

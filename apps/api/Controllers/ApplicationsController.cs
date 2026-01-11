@@ -36,8 +36,8 @@ public class ApplicationsController : ControllerBase
 
         try
         {
-            _logger.LogDebug("POST /api/applications - Request body: OpportunityId={OpportunityId}, Availability={Availability}", 
-                dto.OpportunityId, dto.Availability);
+            _logger.LogDebug("POST /api/applications - Request body: OpportunityId={OpportunityId}, Message={Message}", 
+                dto.OpportunityId, dto.Message);
             
             var application = await _service.CreateApplicationAsync(studentUserId, dto);
             
@@ -116,7 +116,7 @@ public class ApplicationsController : ControllerBase
             _logger.LogDebug("PATCH /api/applications/{Id}/status - Update request: Status={Status}, OpportunityId={OpportunityId}, OrganisationId={OrganisationId}", 
                 id, dto.Status, opportunityId, organisationId);
             
-            var application = await _service.UpdateApplicationStatusAsync(id, opportunityId, dto.Status);
+            var application = await _service.UpdateApplicationStatusAsync(id, opportunityId, dto);
             
             if (application == null)
             {

@@ -36,13 +36,13 @@ public class HoursController : ControllerBase
 
         try
         {
-            _logger.LogDebug("POST /api/hours - Request body: Date={Date}, Hours={Hours}, OpportunityId={OpportunityId}, OrganisationId={OrganisationId}", 
-                dto.Date, dto.Hours, dto.OpportunityId, dto.OrganisationId);
+            _logger.LogDebug("POST /api/hours - Request body: Date={Date}, Minutes={Minutes}, OpportunityId={OpportunityId}, OrganisationId={OrganisationId}", 
+                dto.Date, dto.Minutes, dto.OpportunityId, dto.OrganisationId);
             
             var hoursLog = await _service.CreateHoursLogAsync(studentUserId, dto);
             
-            _logger.LogInformation("POST /api/hours - Successfully created hours log {HoursLogId} for student {StudentUserId}, date {Date}, hours {Hours}", 
-                hoursLog.Id, studentUserId, dto.Date, dto.Hours);
+            _logger.LogInformation("POST /api/hours - Successfully created hours log {HoursLogId} for student {StudentUserId}, date {Date}, minutes {Minutes}", 
+                hoursLog.Id, studentUserId, dto.Date, dto.Minutes);
             
             return CreatedAtAction(nameof(GetHoursLog), new { id = hoursLog.Id }, hoursLog);
         }

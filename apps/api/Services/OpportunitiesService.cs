@@ -21,10 +21,9 @@ public class OpportunitiesService : IOpportunitiesService
         _logger.LogDebug("OpportunitiesService.GetPublishedOpportunitiesAsync - Starting");
         try
         {
-            var allOpportunities = await _repository.GetAllAsync();
-            var published = allOpportunities.Where(o => o.IsPublished).ToList();
-            _logger.LogInformation("OpportunitiesService.GetPublishedOpportunitiesAsync - Retrieved {Count} published opportunities", published.Count);
-            return published;
+            var opportunities = await _repository.GetAllPublishedAsync();
+            _logger.LogInformation("OpportunitiesService.GetPublishedOpportunitiesAsync - Retrieved {Count} published opportunities", opportunities.Count());
+            return opportunities;
         }
         catch (Exception ex)
         {
@@ -72,10 +71,10 @@ public class OpportunitiesService : IOpportunitiesService
                 Title = dto.Title,
                 Description = dto.Description,
                 Location = dto.Location,
-                HoursPerWeek = dto.HoursPerWeek,
-                StartDate = dto.StartDate,
-                EndDate = dto.EndDate,
-                IsPublished = dto.IsPublished
+                Skills = dto.Skills,
+                CauseAreas = dto.CauseAreas,
+                TimeCommitment = dto.TimeCommitment,
+                Status = "draft"
             };
 
             var created = await _repository.CreateAsync(opportunity);
@@ -97,9 +96,7 @@ public class OpportunitiesService : IOpportunitiesService
             id, organisationId);
         try
         {
-            var allOpportunities = await _repository.GetAllAsync();
-            var opportunity = allOpportunities.FirstOrDefault(o => o.Id == id && o.OrganisationId == organisationId);
-            
+            var opportunity = await _repository.GetByIdAsync(id, organisationId);
             if (opportunity == null)
             {
                 _logger.LogWarning("OpportunitiesService.UpdateOpportunityAsync - Opportunity not found or access denied: {Id}, Organisation: {OrganisationId}", 
@@ -118,17 +115,17 @@ public class OpportunitiesService : IOpportunitiesService
                 opportunity.Description = dto.Description;
             if (!string.IsNullOrEmpty(dto.Location))
                 opportunity.Location = dto.Location;
-            if (dto.HoursPerWeek.HasValue)
-                opportunity.HoursPerWeek = dto.HoursPerWeek.Value;
-            if (dto.StartDate.HasValue)
-                opportunity.StartDate = dto.StartDate.Value;
-            if (dto.EndDate.HasValue)
-                opportunity.EndDate = dto.EndDate.Value;
-            if (dto.IsPublished.HasValue)
+            if (dto.Skills != null)
+                opportunity.Skills = dto.Skills;
+            if (dto.CauseAreas != null)
+                opportunity.CauseAreas = dto.CauseAreas;
+            if (!string.IsNullOrEmpty(dto.TimeCommitment))
+                opportunity.TimeCommitment = dto.TimeCommitment;
+            if (!string.IsNullOrEmpty(dto.Status))
             {
-                _logger.LogDebug("OpportunitiesService.UpdateOpportunityAsync - Updating published status: {OldStatus} -> {NewStatus}", 
-                    opportunity.IsPublished, dto.IsPublished.Value);
-                opportunity.IsPublished = dto.IsPublished.Value;
+                _logger.LogDebug("OpportunitiesService.UpdateOpportunityAsync - Updating status: {OldStatus} -> {NewStatus}", 
+                    opportunity.Status, dto.Status);
+                opportunity.Status = dto.Status;
             }
 
             var updated = await _repository.UpdateAsync(opportunity);
