@@ -4,7 +4,11 @@
     "emitDecoratorMetadata": true,
     "outDir": "",
     "module": "esnext",
-    "moduleResolution": "bundler"
+    "moduleResolution": "bundler",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "exclude": [
     "src/**/*.spec.ts",
