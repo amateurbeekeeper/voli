@@ -4,6 +4,5 @@
   "framework": "nextjs",
   "installCommand": "pnpm install --frozen-lockfile",
   "devCommand": "pnpm nx dev web",
-  "regions": ["iad1"],
-  "nodeVersion": "22.x"
+  "regions": ["iad1"]
 }
