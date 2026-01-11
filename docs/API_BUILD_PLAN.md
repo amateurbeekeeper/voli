@@ -89,7 +89,10 @@ This plan covers the complete implementation of:
 - [x] Install `openapi-typescript-codegen` package
 - [x] Configure client generation in `libs/api-client/project.json`
 - [x] Create README for API client library
-- [ ] Create script to fetch OpenAPI spec from running API (target exists)
+- [x] Create script to fetch OpenAPI spec from running API
+  - ✅ `openapi` target exists in `apps/api/project.json`
+  - ✅ Uses curl to fetch from `/swagger/v1/swagger.json`
+  - ✅ Outputs to `libs/api-client/openapi.json`
 - [ ] Generate TypeScript client (requires running API)
 - [ ] Test generated client types
 
