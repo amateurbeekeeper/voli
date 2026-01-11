@@ -2,7 +2,37 @@
 
 This document outlines the rules and guidelines for contributing to the Voli project.
 
-## 1. Commit Messages
+## 1. Commit Workflow
+
+**Guideline: Commit changes after every meaningful change.**
+
+### When to Commit
+
+Make a commit when you've completed:
+- ✅ A feature or task
+- ✅ A bug fix
+- ✅ Documentation updates
+- ✅ Configuration changes
+- ✅ A logical unit of work
+
+### Benefits of Incremental Commits
+
+- **Clean history**: Each commit represents a single logical change
+- **Easier review**: Small, focused commits are easier to review
+- **Better debugging**: Can easily identify which commit introduced a change
+- **Easier rollback**: Can revert specific changes without affecting others
+- **Clearer progress**: Git history shows incremental progress
+
+### Important Notes
+
+- This is a **guideline**, not automatically enforced (commit frequency depends on context)
+- Avoid accumulating large batches of unrelated changes
+- Use your judgment - some changes naturally go together
+- The goal is **incremental, logical commits**, not necessarily one commit per file edit
+
+---
+
+## 2. Commit Messages
 
 **REQUIRED: All commits MUST follow the standardized format below.**
 
