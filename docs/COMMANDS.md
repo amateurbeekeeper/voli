@@ -15,6 +15,11 @@ pnpm nx dev web
 pnpm nx serve api
 # or
 pnpm nx dev api
+
+# Run Storybook (UI component library)
+pnpm storybook
+# or
+pnpm nx storybook ui
 ```
 
 ## Building
