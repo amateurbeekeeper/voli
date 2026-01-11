@@ -574,4 +574,73 @@ Based on external guidance and investigation:
 
 ---
 
+### Resolution: Vercel Deployment Successfully Fixed
+
+**Date:** January 11, 2026
+
+**Final Solution:**
+After multiple iterations and approaches, the deployment was successfully fixed using **Option 1: Set Root Directory to `web`**.
+
+**Root Cause Identified:**
+- Vercel's Next.js detection couldn't find App Router pages when building from monorepo root
+- Output was in `web/.next`, but Vercel expected `.next` relative to the project root
+- Even though build succeeded and App Router files existed, Vercel's post-build detection failed
+
+**Final Solution Steps:**
+1. **Set Root Directory to `web` in Vercel Dashboard:**
+   - Settings → General → Build & Development Settings
+   - Root Directory: Set to `web` (not empty)
+   - This makes Vercel treat `web/` as the project root
+
+2. **Updated `vercel.json` build command:**
+   ```json
+   {
+     "buildCommand": "cd .. && pnpm install --frozen-lockfile && cd web && next build",
+     "outputDirectory": ".next",
+     "framework": "nextjs",
+     "installCommand": "cd .. && pnpm install --frozen-lockfile"
+   }
+   ```
+   - Build command now runs from monorepo root (to install deps), then switches to `web/` for `next build`
+   - Output directory is `.next` (relative to `web/` root, not `web/.next`)
+   - Next.js transpiles `@voli/ui` directly via `transpilePackages`, so no separate build needed
+
+3. **Updated Next.js to 16.1.1:**
+   - Fixed security vulnerability (CVE-2025-66478) that was blocking deployments
+   - Updated from `15.1.0` to `16.1.1`
+   - Note: Next.js 16 reintroduces Turbopack, but with Root Directory set to `web`, it works correctly
+
+**Files Changed:**
+- `vercel.json` - Updated build command and output directory for `web/` root context
+- `package.json` - Updated Next.js to 16.1.1
+- `VERCEL_OPTIONS.md` - Created comprehensive options document (5 different approaches)
+- `VERCEL_ROOT_DIRECTORY_FIX.md` - Created quick fix guide
+
+**Outcome:**
+✅ **Deployment successful!**
+- Status: ● Ready
+- URL: https://voli-ggp11m7pe-docile-worm-studios-projects.vercel.app
+- Build completes successfully
+- App Router pages detected correctly
+- Application is live and accessible
+
+**Key Learnings:**
+- **Root Directory is critical for monorepos** - Setting it to the app directory (`web/`) makes Vercel treat it as a standalone Next.js app
+- **Vercel's Next.js detection needs standard structure** - Building from monorepo root confuses the detection logic
+- **Simple solutions often work best** - Setting Root Directory was simpler than complex workarounds (symlinks, copying files, etc.)
+- **Security updates can block deployments** - CVE-2025-66478 prevented deployment even after build succeeded
+- **Next.js 16 works with Root Directory approach** - Even though we downgraded earlier, 16.1.1 works fine with the `web/` root setup
+
+**Why This Approach Worked:**
+- By setting Root Directory to `web`, Vercel sees a standard Next.js App Router structure
+- `app/` directory is at `web/app/` which Vercel sees as `app/` (relative to root)
+- `.next` output is at `web/.next` which Vercel sees as `.next` (relative to root)
+- Framework detection works automatically because structure matches expected Next.js layout
+
+**Files Created for Documentation:**
+- `VERCEL_OPTIONS.md` - Comprehensive list of 5 different approaches with pros/cons
+- `VERCEL_ROOT_DIRECTORY_FIX.md` - Step-by-step guide for fixing via dashboard
+
+---
+
 **Last Updated:** January 11, 2026
