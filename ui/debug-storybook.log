@@ -1,0 +1,35 @@
+[11:18:44.537] [INFO] storybook v10.1.11
+[11:18:44.637] [ERROR] [38;2;241;97;97mSB_CORE-SERVER_0007 (MainFileEvaluationError): Storybook couldn't evaluate your [33m.storybook/main.ts[39m file.
+
+Original error:
+[37mError [ERR_MODULE_NOT_FOUND]: Cannot find package '@vitejs/plugin-react' imported from /.storybook/main.ts
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:256:9)
+    at packageResolve (node:internal/modules/esm/resolve:768:81)
+    at moduleResolve (node:internal/modules/esm/resolve:854:18)
+    at defaultResolve (node:internal/modules/esm/resolve:984:11)
+    at nextResolve (node:internal/modules/esm/hooks:748:28)
+    at Hooks.resolve (node:internal/modules/esm/hooks:240:30)
+    at handleMessage (node:internal/modules/esm/worker:199:24)
+    at checkForMessages (node:internal/modules/esm/worker:141:28)
+    at process.<anonymous> (node:internal/modules/esm/worker:160:5)
+    at process.emit (node:events:518:28)[39m[39m
+    at loadMainConfig (file:///Users/james/code/voli/node_modules/.pnpm/storybook@10.1.11_@testing-library+dom@10.4.1_prettier@3.6.2_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/storybook/dist/_node-chunks/chunk-Q4DOC7HF.js:11701:11)
+    at async buildDevStandalone (file:///Users/james/code/voli/node_modules/.pnpm/storybook@10.1.11_@testing-library+dom@10.4.1_prettier@3.6.2_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/storybook/dist/core-server/index.js:7149:16)
+    at async withTelemetry (file:///Users/james/code/voli/node_modules/.pnpm/storybook@10.1.11_@testing-library+dom@10.4.1_prettier@3.6.2_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/storybook/dist/_node-chunks/chunk-2372JZ52.js:209:12)
+    at async dev (file:///Users/james/code/voli/node_modules/.pnpm/storybook@10.1.11_@testing-library+dom@10.4.1_prettier@3.6.2_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/storybook/dist/bin/core.js:2734:3)
+    at async _Command.<anonymous> (file:///Users/james/code/voli/node_modules/.pnpm/storybook@10.1.11_@testing-library+dom@10.4.1_prettier@3.6.2_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/storybook/dist/bin/core.js:2801:92)
+[11:18:44.639] [WARN] Broken build, fix the error above.
+You may need to refresh the browser.
+[11:18:44.642] [WARN]   Failed to load preset: "/Users/james/code/voli/ui/.storybook/main.ts"
+[11:18:44.642] [ERROR] Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@vitejs/plugin-react' imported from ./.storybook/main.ts
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:256:9)
+    at packageResolve (node:internal/modules/esm/resolve:768:81)
+    at moduleResolve (node:internal/modules/esm/resolve:854:18)
+    at defaultResolve (node:internal/modules/esm/resolve:984:11)
+    at nextResolve (node:internal/modules/esm/hooks:748:28)
+    at Hooks.resolve (node:internal/modules/esm/hooks:240:30)
+    at handleMessage (node:internal/modules/esm/worker:199:24)
+    at checkForMessages (node:internal/modules/esm/worker:141:28)
+    at process.<anonymous> (node:internal/modules/esm/worker:160:5)
+    at process.emit (node:events:518:28)
+[11:18:59.732] [PROMPT] Would you like to send anonymous crash reports to improve Storybook and fix bugs faster? {"choice":true}

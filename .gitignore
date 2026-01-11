@@ -59,3 +59,4 @@ apps/api/appsettings.*.json
 # Generated API client
 libs/api-client/src
 libs/api-client/openapi.json
+.vercel
