@@ -13,12 +13,11 @@ import {
   AlertTitle,
 } from '@voli/ui';
 import Link from 'next/link';
-import { Users, Clock, TrendingUp, CheckCircle, AlertCircle, Calendar, Mail, ArrowRight } from 'lucide-react';
+import { Users, Clock, TrendingUp, CheckCircle, AlertCircle, Calendar, ArrowRight } from 'lucide-react';
 
 export default function Index() {
   return (
     <Container size="full" className="py-8 space-y-8">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Dashboard</h1>
