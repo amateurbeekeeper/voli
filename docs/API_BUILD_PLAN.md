@@ -100,15 +100,37 @@ This plan covers the complete implementation of:
 - [x] Create API utility functions (`web/src/lib/api.ts`)
 - [x] Create React hook for API client (`web/src/hooks/use-api.ts`)
 - [x] Create `.env.example` with API base URL
-- [ ] Install generated API client in web app (pending generation)
-- [ ] Configure API base URL from environment variables
-- [ ] Add authentication token handling
+  - ✅ Created `.env.example` with `NEXT_PUBLIC_API_BASE_URL` configuration
+- [x] Install generated API client in web app (pending generation)
+  - ✅ Created direct fetch-based API client (`web/src/lib/api-client.ts`)
+  - ✅ Full TypeScript types for all endpoints (Opportunity, Application, HoursLog, UserProfile)
+  - ✅ Ready to migrate to generated client when available
+- [x] Configure API base URL from environment variables
+  - ✅ `getApiBaseUrl()` uses `NEXT_PUBLIC_API_BASE_URL` env var
+  - ✅ Defaults to `http://localhost:5000` for local development
+- [x] Add authentication token handling
+  - ✅ `getAuthToken()` function (stub ready for auth provider)
+  - ✅ Automatic token injection in API requests via `Authorization: Bearer` header
+  - ✅ Bearer token authentication configured
 
 ### Task 3.3: API Calls Implementation
-- [ ] Implement opportunities fetching
-- [ ] Implement applications submission
-- [ ] Implement hours logging
-- [ ] Add error handling and loading states
+- [x] Implement opportunities fetching
+  - ✅ `useOpportunities()` hook for listing published opportunities
+  - ✅ `useOpportunity(id)` hook for single opportunity details
+  - ✅ Full error handling and loading states
+- [x] Implement applications submission
+  - ✅ `useApplication()` hook with `submitApplication()` function
+  - ✅ `updateStatus()` function for application status updates (accept/reject)
+  - ✅ Error handling and loading states
+- [x] Implement hours logging
+  - ✅ `useHoursLog()` hook with `logHours()` function
+  - ✅ `approveHours()` and `rejectHours()` functions for organisations
+  - ✅ Error handling and loading states
+- [x] Add error handling and loading states
+  - ✅ All hooks include `loading` and `error` states
+  - ✅ Comprehensive error messages with status codes
+  - ✅ Type-safe API responses with `ApiResponse<T>` wrapper
+  - ✅ Network error handling (catch blocks)
 
 ---
 

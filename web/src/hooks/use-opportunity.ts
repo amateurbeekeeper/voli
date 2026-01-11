@@ -45,6 +45,7 @@ export function useOpportunity(id: string | null): UseOpportunityResult {
 
   useEffect(() => {
     fetchOpportunity();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return {

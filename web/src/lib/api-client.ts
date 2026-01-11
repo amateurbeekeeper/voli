@@ -8,8 +8,6 @@
 
 import { getApiBaseUrl, getAuthToken } from './api';
 
-const API_BASE_URL = getApiBaseUrl();
-
 /**
  * API Response wrapper
  */
@@ -45,7 +43,8 @@ async function apiRequest<T>(
   try {
     const headers = await createHeaders();
     
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    const baseURL = getApiBaseUrl();
+    const response = await fetch(`${baseURL}${endpoint}`, {
       ...options,
       headers: {
         ...headers,
