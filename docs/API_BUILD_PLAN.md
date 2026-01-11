@@ -215,7 +215,8 @@ This plan covers the complete implementation of:
 - ⏳ API runs locally without errors (requires Cosmos DB config)
 - ⏳ API deployed to Azure Web App (staging) (requires Azure resources)
 - ⏳ API deployed to Azure Web App (production) (requires Azure resources)
-- ⏳ Web app can communicate with API (requires client generation)
+- ⏳ Web app can communicate with API (infrastructure ready, requires running API to test)
+- ⏳ Generate TypeScript client from OpenAPI spec (requires running API)
 - ⏳ Authentication flow works end-to-end (requires Azure AD setup)
 - ⏳ All endpoints are tested and working (requires running API)
 
