@@ -15,6 +15,7 @@ export interface UseApplicationResult {
   submitApplication: (dto: CreateApplicationDto) => Promise<ApiResponse<Application>>;
   updateStatus: (
     id: string,
+    opportunityId: string,
     dto: UpdateApplicationStatusDto
   ) => Promise<ApiResponse<Application>>;
   loading: boolean;
@@ -46,11 +47,11 @@ export function useApplication(): UseApplicationResult {
     }
   };
 
-  const updateStatus = async (id: string, dto: UpdateApplicationStatusDto) => {
+  const updateStatus = async (id: string, opportunityId: string, dto: UpdateApplicationStatusDto) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await applicationsApi.updateStatus(id, dto);
+      const response = await applicationsApi.updateStatus(id, opportunityId, dto);
       if (response.error) {
         setError(response.error);
       }

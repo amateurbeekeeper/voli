@@ -20,41 +20,80 @@ const nextConfig = {
   // Explicitly set output to help Vercel detect App Router structure
   output: undefined, // Use default (not standalone) for Vercel
   // Optimize file watching for monorepo
-  webpack: (config, { dev }) => {
-    // Resolve UI library's internal path aliases
-    // This allows @/ imports in @voli/ui components to resolve correctly
+  webpack: (config, { dev, isServer }) => {
+    // Resolve path aliases
     const path = require('path');
     const webpack = require('webpack');
+    const webSrcPath = path.resolve(__dirname, 'src');
     const uiSrcPath = path.resolve(__dirname, '../ui/src');
     
-    // Set up alias for @/ to point to UI library src
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@': uiSrcPath,
+    // Override the resolve to handle @/ imports based on context
+    // This needs to run before SWC processes the files
+    const originalResolve = config.resolve || {};
+    const originalAlias = originalResolve.alias || {};
+    
+    // Don't set a global @ alias - let the plugin handle it contextually
+    config.resolve = {
+      ...originalResolve,
+      alias: {
+        ...originalAlias,
+        // Remove any existing @ alias
+      },
     };
+    
+    // Use NormalModuleReplacementPlugin to intercept @/ imports
+    // This runs during webpack's module resolution phase
+    config.plugins = config.plugins || [];
+    
+    // Add plugin early in the chain
+    const replacementPlugin = new webpack.NormalModuleReplacementPlugin(
+      /^@\/(.*)$/,
+      (resource) => {
+        const requestPath = resource.request.replace('@/', '');
+        const contextPath = resource.context || '';
+        const issuerPath = resource.context || '';
+        
+        // Normalize paths for comparison
+        const normalizedContext = path.normalize(contextPath).replace(/\\/g, '/');
+        const normalizedIssuer = path.normalize(issuerPath).replace(/\\/g, '/');
+        
+        // Check multiple patterns to detect UI library files
+        const uiPatterns = [
+          '/ui/src/',
+          '/ui\\src\\',
+          '@voli/ui',
+          'node_modules/@voli/ui',
+          path.join('ui', 'src'),
+        ];
+        
+        const isFromUiLibrary = uiPatterns.some(pattern => 
+          normalizedContext.includes(pattern) || normalizedIssuer.includes(pattern)
+        );
+        
+        if (isFromUiLibrary) {
+          const resolved = path.resolve(uiSrcPath, requestPath);
+          resource.request = resolved;
+          if (dev) {
+            console.log(`[Webpack] Resolved UI @/ import: ${resource.request}`);
+          }
+        } else {
+          const resolved = path.resolve(webSrcPath, requestPath);
+          resource.request = resolved;
+        }
+      }
+    );
+    
+    // Insert at the beginning to run before other plugins
+    config.plugins.unshift(replacementPlugin);
 
-    // Add UI src to module resolution paths
+    // Add both web src and UI src to module resolution paths
     if (!config.resolve.modules) {
       config.resolve.modules = ['node_modules'];
     }
     if (Array.isArray(config.resolve.modules)) {
+      config.resolve.modules.push(webSrcPath);
       config.resolve.modules.push(uiSrcPath);
     }
-
-    // Use NormalModuleReplacementPlugin to rewrite @/ imports in UI library files
-    config.plugins = config.plugins || [];
-    config.plugins.push(
-      new webpack.NormalModuleReplacementPlugin(
-        /^@\/(.*)$/,
-        (resource) => {
-          // Only rewrite if the resource is from the UI library
-          if (resource.context && resource.context.includes('ui/src')) {
-            const relativePath = resource.request.replace('@/', '');
-            resource.request = path.resolve(uiSrcPath, relativePath);
-          }
-        }
-      )
-    );
 
     if (dev) {
       // Optimize watch options for large monorepos

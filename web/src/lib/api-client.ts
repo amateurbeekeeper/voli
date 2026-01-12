@@ -199,9 +199,10 @@ export const applicationsApi = {
    */
   updateStatus: async (
     id: string,
+    opportunityId: string,
     dto: UpdateApplicationStatusDto
   ): Promise<ApiResponse<Application>> => {
-    return apiRequest<Application>(`/api/applications/${id}/status`, {
+    return apiRequest<Application>(`/api/applications/${id}/status?opportunityId=${opportunityId}`, {
       method: 'PATCH',
       body: JSON.stringify(dto),
     });
