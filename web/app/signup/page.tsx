@@ -19,10 +19,10 @@ import {
   SelectValue,
 } from '@voli/ui';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
-export default function SignupPage() {
+function SignupForm() {
   const searchParams = useSearchParams();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -147,5 +147,19 @@ export default function SignupPage() {
         </Card>
       </div>
     </Container>
+  );
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense fallback={
+      <Container size="full" className="py-8">
+        <div className="max-w-md mx-auto">
+          <div className="text-center">Loading...</div>
+        </div>
+      </Container>
+    }>
+      <SignupForm />
+    </Suspense>
   );
 }
