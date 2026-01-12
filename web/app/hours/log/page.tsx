@@ -22,14 +22,12 @@ import {
 import Link from 'next/link';
 import { useHoursLog } from '@/hooks/use-hours-log';
 import { useOpportunities } from '@/hooks/use-opportunities';
-import { useUser } from '@/hooks/use-user';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Loader2, CheckCircle2 } from 'lucide-react';
 import { useState } from 'react';
 
 export default function LogHoursPage() {
   const router = useRouter();
-  const { user } = useUser();
   const { opportunities } = useOpportunities();
   const { logHours, loading: submitting, error } = useHoursLog();
   const [opportunityId, setOpportunityId] = useState('');
@@ -80,7 +78,7 @@ export default function LogHoursPage() {
               <CheckCircle2 className="h-16 w-16 text-green-500 mx-auto" />
               <h2 className="text-2xl font-bold">Hours Logged!</h2>
               <p className="text-muted-foreground">
-                Your volunteer hours have been logged successfully. You'll be redirected to your dashboard shortly.
+                Your volunteer hours have been logged successfully. You&apos;ll be redirected to your dashboard shortly.
               </p>
             </div>
           </CardContent>
@@ -102,7 +100,7 @@ export default function LogHoursPage() {
         <div>
           <h1 className="text-4xl font-bold tracking-tight">Log Volunteer Hours</h1>
           <p className="text-muted-foreground mt-2">
-            Record the hours you've volunteered
+            Record the hours you&apos;ve volunteered
           </p>
         </div>
 

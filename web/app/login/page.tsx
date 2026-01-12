@@ -15,10 +15,8 @@ import {
 } from '@voli/ui';
 import Link from 'next/link';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
-  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -92,7 +90,7 @@ export default function LoginPage() {
 
             <div className="mt-4 text-center text-sm">
               <p className="text-muted-foreground">
-                Don't have an account?{' '}
+                Don&apos;t have an account?{' '}
                 <Link href="/signup" className="underline">
                   Sign up
                 </Link>

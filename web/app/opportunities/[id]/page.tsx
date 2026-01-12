@@ -3,7 +3,6 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
   Button,
@@ -15,13 +14,12 @@ import {
 } from '@voli/ui';
 import Link from 'next/link';
 import { useOpportunity } from '@/hooks/use-opportunity';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { MapPin, Clock, ArrowLeft, ArrowRight, Loader2 } from 'lucide-react';
 import { useUser } from '@/hooks/use-user';
 
 export default function OpportunityDetailPage() {
   const params = useParams();
-  const router = useRouter();
   const opportunityId = params.id as string;
   const { opportunity, loading, error } = useOpportunity(opportunityId);
   const { user } = useUser();

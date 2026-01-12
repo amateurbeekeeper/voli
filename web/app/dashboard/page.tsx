@@ -24,13 +24,10 @@ import {
 } from '@voli/ui';
 import Link from 'next/link';
 import { useUser } from '@/hooks/use-user';
-import { useOpportunities } from '@/hooks/use-opportunities';
 import { useApplication } from '@/hooks/use-application';
 import { useHoursLog } from '@/hooks/use-hours-log';
 import { useState, useEffect } from 'react';
 import {
-  Clock,
-  Target,
   CheckCircle,
   XCircle,
   Plus,
@@ -38,18 +35,17 @@ import {
   Loader2,
   Calendar,
 } from 'lucide-react';
-import { applicationsApi, hoursLogsApi, Opportunity } from '@/lib/api-client';
+import { Opportunity, Application, HoursLog } from '@/lib/api-client';
 import { getApiBaseUrl, getAuthToken } from '@/lib/api';
 
 export default function DashboardPage() {
   const { user, loading: userLoading } = useUser();
-  const { opportunities } = useOpportunities();
-  const [applications, setApplications] = useState<any[]>([]);
-  const [hoursLogs, setHoursLogs] = useState<any[]>([]);
+  const [applications, setApplications] = useState<Application[]>([]);
+  const [hoursLogs, setHoursLogs] = useState<HoursLog[]>([]);
   const [loading, setLoading] = useState(true);
   const [orgOpportunities, setOrgOpportunities] = useState<Opportunity[]>([]);
-  const [orgApplications, setOrgApplications] = useState<any[]>([]);
-  const [orgHoursLogs, setOrgHoursLogs] = useState<any[]>([]);
+  const [orgApplications, setOrgApplications] = useState<Application[]>([]);
+  const [orgHoursLogs, setOrgHoursLogs] = useState<HoursLog[]>([]);
   const { updateStatus } = useApplication();
   const { approveHours, rejectHours } = useHoursLog();
 
@@ -168,7 +164,7 @@ export default function DashboardPage() {
                 {applications.length === 0 ? (
                   <div className="text-center py-8">
                     <p className="text-muted-foreground mb-4">
-                      You haven't applied to any opportunities yet.
+                      You haven&apos;t applied to any opportunities yet.
                     </p>
                     <Button asChild>
                       <Link href="/opportunities">
@@ -247,7 +243,7 @@ export default function DashboardPage() {
                 {hoursLogs.length === 0 ? (
                   <div className="text-center py-8">
                     <p className="text-muted-foreground mb-4">
-                      You haven't logged any hours yet.
+                      You haven&apos;t logged any hours yet.
                     </p>
                     <Button asChild>
                       <Link href="/hours/log">
@@ -320,7 +316,7 @@ export default function DashboardPage() {
                 {orgOpportunities.length === 0 ? (
                   <div className="text-center py-8">
                     <p className="text-muted-foreground mb-4">
-                      You haven't created any opportunities yet.
+                      You haven&apos;t created any opportunities yet.
                     </p>
                     <Button asChild>
                       <Link href="/opportunities/new">

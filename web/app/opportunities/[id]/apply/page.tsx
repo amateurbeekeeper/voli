@@ -74,7 +74,7 @@ export default function ApplyPage() {
               <CheckCircle2 className="h-16 w-16 text-green-500 mx-auto" />
               <h2 className="text-2xl font-bold">Application Submitted!</h2>
               <p className="text-muted-foreground">
-                Your application has been submitted successfully. You'll be redirected to your dashboard shortly.
+                Your application has been submitted successfully. You&apos;ll be redirected to your dashboard shortly.
               </p>
             </div>
           </CardContent>
@@ -102,7 +102,7 @@ export default function ApplyPage() {
           <CardHeader>
             <CardTitle>Application Form</CardTitle>
             <CardDescription>
-              Tell us why you're interested in this opportunity
+              Tell us why you&apos;re interested in this opportunity
             </CardDescription>
           </CardHeader>
           <CardContent>
