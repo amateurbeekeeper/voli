@@ -1,6 +1,7 @@
 // Import web app styles (contains Tailwind + CSS variables)
 import './global.css';
 import { AppHeader } from './components/header';
+import { StoreProvider } from '@/store/StoreProvider';
 
 export const metadata = {
   title: 'Voli - Volunteer Platform',
@@ -15,8 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen bg-background">
-        <AppHeader />
-        {children}
+        <StoreProvider>
+          <AppHeader />
+          {children}
+        </StoreProvider>
       </body>
     </html>
   );
